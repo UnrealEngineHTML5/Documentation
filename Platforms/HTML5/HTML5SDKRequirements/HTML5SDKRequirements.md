@@ -1,6 +1,6 @@
 ﻿Availability: Public
 Title: HTML5 Development Requirements
-Description: HTML5 development requirements including hardware, software, and SDK information. 
+Description: HTML5 development requirements including hardware, software, and SDK information.
 Type: reference
 Version: 4.23
 Parent: Platforms/HTML5
@@ -10,9 +10,9 @@ Tags: StartingOut
 Order: 1
 
 
-[TOC (start:2 end:2)] 
+[TOC (start:2 end:2)]
 
-In this page you'll find hardware and software development kit (SDK) requirements needed to start developing for the [HTML5](../HTML5.md) platform.   
+In this page you'll find hardware and software development kit (SDK) requirements needed to start developing for the [HTML5](../HTML5.md) platform.
 
   ## Unreal Engine 4.23
 

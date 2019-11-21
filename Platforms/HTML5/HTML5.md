@@ -1,6 +1,6 @@
 # UE4 HTML5 Platform Extension
 
-HTML5 platform support has been migrated to GitHub as a community-supported Platform Extension and no longer officially supported by Epic in upcoming releases.  
+HTML5 platform support has been migrated to GitHub as a community-supported Platform Extension and no longer officially supported by Epic in upcoming releases.
 
 HTML5 uses the [Emscripten Toolchain](https://emscripten.org/docs/introducing_emscripten/about_emscripten.html#emscripten-toolchain) from [Mozilla](https://www.mozilla.org/en-US/) to cross-compile C++ into Javascript.
 
@@ -12,7 +12,7 @@ HTML5 uses the [Emscripten Toolchain](https://emscripten.org/docs/introducing_em
 
 ## Content Development
 
-When building content aimed at the HTML5 platform, you can use theÂ guidelines for creating mobile-oriented content as many of the restrictions for mobile development areÂ applicable to HTML5 development.
+When building content aimed at the HTML5 platform, you can use the guidelines for creating mobile-oriented content as many of the restrictions for mobile development are applicable to HTML5 development.
 
 *   [Materials for Mobile Platforms](https://docs.unrealengine.com/en-US/Platforms/Mobile/Materials)
 
@@ -36,6 +36,6 @@ When building content aimed at the HTML5 platform, you can use theÂ guidelines f
 
 ![ActionRPG.jpg](Images/ActionRPG-resize514x289.jpg "ActionRPG.jpg")
 
-The following link will allow you to play an HTML5 version ofÂ Action RPG right in your web browser.Â 
+The following link will allow you to play an HTML5 version of Action RPG right in your web browser. 
 
 [Action RPG in HTML5](https://epiclearningresources.000webhostapp.com/ActionRPG/ActionRPG-HTML5-Shipping.html)

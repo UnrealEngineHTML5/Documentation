@@ -11,11 +11,11 @@ Order: 0
 
 ## HTML5 SDK Setup
 
-The Unreal Engine 4 (UE4) HTML5 implementation utilizes the [Emscripten](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Emscripten) toolchain from [Mozilla](http://kripken.github.io/emscripten-site/) to cross-compile UE4's C++ code into Javascript. When you download UE4 from either the Epic Games Launcher or from Epic's Github repository all of the neededÂ **EmscriptenÂ **andÂ **PythonÂ **files for HTML5 developmentÂ will be included. This means that you can start creating HTML5 projects without having to perform any additional setup steps or install any additional software.
+The Unreal Engine 4 (UE4) HTML5 implementation utilizes the [Emscripten](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Emscripten) toolchain from [Mozilla](http://kripken.github.io/emscripten-site/) to cross-compile UE4's C++ code into Javascript. When you download UE4 from either the Epic Games Launcher or from Epic's Github repository all of the needed **Emscripten **and **Python **files for HTML5 development will be included. This means that you can start creating HTML5 projects without having to perform any additional setup steps or install any additional software.
 
 ## HTML5 Supported Web Browser
 
-While you canÂ run your UE4 HTML5 project with **32-bitÂ **webÂ browser, using aÂ **64-bit**Â version web browser is highly recommended. You can find 64-bit versions of theÂ GoogleÂ Chrome and Firefox web browsers using the following links
+While you can run your UE4 HTML5 project with **32-bit **web browser, using a **64-bit** version web browser is highly recommended. You can find 64-bit versions of the Google Chrome and Firefox web browsers using the following links
 
 *   [Google Chrome 64 Bit](https://www.google.com/chrome/beta/)
 
@@ -23,55 +23,55 @@ While you canÂ run your UE4 HTML5 project with **32-bitÂ **webÂ browser, using a
 
 ## Multithread Support
 
-Experimental multithreadedÂ support is available using UE4 builds built from source.Â 
+Experimental multithreaded support is available using UE4 builds built from source. 
 
 Some browsers will need special flags enabled to be allowed to run in multithreaded mode.
 
-*   In Chrome: launchÂ with the following flags:Â `--js-flags=--experimental-wasm-threads --enable-features=WebAssembly,SharedArrayBuffer`. Alternately, these can be enabled and disabled inÂ `chrome://flags/#enable-webassembly-threads`Â asÂ "WebAssembly threads support".
+*   In Chrome: launch with the following flags: `--js-flags=--experimental-wasm-threads --enable-features=WebAssembly,SharedArrayBuffer`. Alternately, these can be enabled and disabled in `chrome://flags/#enable-webassembly-threads` as "WebAssembly threads support".
 
 *   In Firefox nightly, SharedArrayBuffer can be enabled in `about:config` by setting the `javascript.options.shared_memory preference to true`.
 
 ## HTML5 Required Project Setup
 
-In Order to get your UE4 powered HTML5 project working correctly you will need to disable MSAA from theÂ [Project Settings](https://docs.unrealengine.com/en-US/Engine/UI/ProjectSettings). This can be done by going to**Â Project Settings**Â >Â **RenderingÂ **>Â **MobileÂ **and thenÂ setting theÂ **MobileÂ MSAAÂ **optionÂ toÂ **NoÂ ****MSAA****.**
+In Order to get your UE4 powered HTML5 project working correctly you will need to disable MSAA from the [Project Settings](https://docs.unrealengine.com/en-US/Engine/UI/ProjectSettings). This can be done by going to** Project Settings** > **Rendering **> **Mobile **and then setting the **Mobile MSAA **option to **No ****MSAA****.**
 
 
 ![](Images/HTML5_Disable_MobileMSAA.png)
 
 ## HTML5 Build Type
 
-When creating a build of your HTML5 project, you have the option of creating a **Development** **Build** or aÂ **Shipping** **Build**. The type of build that you create for your projectÂ depends on what you are trying to accomplish.Â 
+When creating a build of your HTML5 project, you have the option of creating a **Development** **Build** or a **Shipping** **Build**. The type of build that you create for your project depends on what you are trying to accomplish. 
 
-**HTML5 Development Builds:**Â   
+**HTML5 Development Builds:**
 
 *   Development builds are used when you are testing or debugging your project before you want to release it.
 
 *   Development builds only build uncompressed files.
 
-*   Development builds will only work with local testing and are not meant to be deployed to a website.Â 
+*   Development builds will only work with local testing and are not meant to be deployed to a website. 
 
     [REGION:note]
     You can find more information about building your project for Development in the Readme.txt file that is generated when your project is built.
     [/REGION]
-    
+
 
 **HTML5 Shipping Builds:**
 
-*   Shipping builds are used when you are ready to release your project to endÂ users.
+*   Shipping builds are used when you are ready to release your project to end users.
 
-*   Shipping builds can be built toÂ useÂ either compressed or uncompressedÂ files.
+*   Shipping builds can be built to use either compressed or uncompressed files.
 
-*   Shipping builds can be compressed for smaller download size.Â 
+*   Shipping builds can be compressed for smaller download size. 
 
-You can enable or disable compressing files for shipping HTML5 buildsÂ by doing the following:
+You can enable or disable compressing files for shipping HTML5 builds by doing the following:
 
-1.  Go to **Project Settings** >**Platforms** \> **HTML5** \> **Packaging**Â and then make sure to enableÂ **Compress files during shipping packaging.**  
+1.  Go to **Project Settings** >**Platforms** \> **HTML5** \> **Packaging** and then make sure to enable **Compress files during shipping packaging.**
     [REGION:lightbox]
     ![](Images/HTML5_Compression_Enabled.png)
     [/REGION]
     Click for full image.
 
-1.  It is also recommended that you **disable**Â  theÂ **Use Pak File** option by going toÂ **Project Settings** >Â **Packaging** >Â **Packaging** and disable theÂ **Use Pak File** option by clicking on the box next to its name.  
+1.  It is also recommended that you **disable**  the **Use Pak File** option by going to **Project Settings** > **Packaging** > **Packaging** and disable the **Use Pak File** option by clicking on the box next to its name.
     [REGION:lightbox]
     ![](Images/HTML5_Disable_PAK_File.png)
     [/REGION]
@@ -79,49 +79,49 @@ You can enable or disable compressing files for shipping HTML5 buildsÂ by doing 
     Click for full image.
     [/REGION]
     [REGION:note]
-    You can find more information about building your projectÂ for ShippingÂ in the Readme.txt file that is generated when your project is built.
+    You can find more information about building your project for Shipping in the Readme.txt file that is generated when your project is built.
     [/REGION]
-    
+
 
 ## Launching HTML5 Projects
 
-Once you have installed one of the compatible web browsersÂ you can then test one ofÂ your HTML5 project. You can do thisÂ by going to the **Main Tool Bar** and clicking on the **Advanced optionsÂ **dropdown next to theÂ **Launch** option. Then from the from the displayed menu, select the browser you wish to use by clicking on it.  
+Once you have installed one of the compatible web browsers you can then test one of your HTML5 project. You can do this by going to the **Main Tool Bar** and clicking on the **Advanced options **dropdown next to the **Launch** option. Then from the from the displayed menu, select the browser you wish to use by clicking on it.
 
 ![](Images/HTML5_Select_Web_Browser.png)
 
 ## Packaging HTML5 Projects
 
-To create a packaged HTML5 project that can be deployed to the web,Â you will need to make sure to do the following.
+To create a packaged HTML5 project that can be deployed to the web, you will need to make sure to do the following.
 
-1.  First,Â go to **File** \> **Package** **Project** and select **HTML5** from the list.  
+1.  First, go to **File** \> **Package** **Project** and select **HTML5** from the list.
     ![](Images/HTML5_PackageProject.png "HTML5_PackageProject.png")
 
-1.  Select a folder for the project to be saved and then clickÂ **Select Folder** to start the packaging process.
+1.  Select a folder for the project to be saved and then click **Select Folder** to start the packaging process.
 
-1.  Once the project has finished being packaged, open the folder the project was packaged to andÂ run the **HTML5LaunchHelper.exe** program.Â   
+1.  Once the project has finished being packaged, open the folder the project was packaged to and run the **HTML5LaunchHelper.exe** program.
     ![](Images/HTML5_StartWebServer.png "HTML5_StartWebServer.png")
 
-1.  TheÂ **HTML5LaunchHelper.exe**Â programÂ will launch a web server which is configured to serve compressed files on localhost. You can see the progress of this server in the command line window that is displayed when theÂ **HTML5LaunchHelper.exe**Â program is run.  
+1.  The **HTML5LaunchHelper.exe** program will launch a web server which is configured to serve compressed files on localhost. You can see the progress of this server in the command line window that is displayed when the **HTML5LaunchHelper.exe** program is run.
     ![](Images/HTML5_WebServer.png "HTML5_WebServer.png")
 
-1.  Finally, open up your 64-bit web browser of choice and input the following URL;Â \[**Localhost** **Address**\]/\[**ProjectName**\].html. This willÂ load your UE4 HTML5 project in theÂ web browser like in the image below.Â   
+1.  Finally, open up your 64-bit web browser of choice and input the following URL; \[**Localhost** **Address**\]/\[**ProjectName**\].html. This will load your UE4 HTML5 project in the web browser like in the image below.
     ![](Images/HTML5_UE4_ThirdPerson_In_Browser.png "HTML5_UE4_ThirdPerson_In_Browser.png")
     [REGION:note]
-    The URL that you input is based off of your project name. With the above project calledÂ ThirdPerson the address that should be input would beÂ http://localhost:8000/**ThirdPerson**.html
+    The URL that you input is based off of your project name. With the above project called ThirdPerson the address that should be input would be http://localhost:8000/**ThirdPerson**.html
     [/REGION]
-    
+
 
 ## HTML5 Read Me File
 
-When you create a new HTML5 projectÂ there will be a text file that is generated by UE4 calledÂ **Readme.txt**. Inside of this file you will find additional information on how to get your HTML5 project working both locally and on the web.Â 
+When you create a new HTML5 project there will be a text file that is generated by UE4 called **Readme.txt**. Inside of this file you will find additional information on how to get your HTML5 project working both locally and on the web. 
 
 ![](Images/HTML5_ReadMeHelp.png "HTML5_ReadMeHelp.png")
 
 ## HTML5 File Types
 
-When building your UE4 project for development or deployment withÂ HTML5 you have the option to use compressed or uncompressed files. The following chart breaks down what files are required for uncompressed builds and what information these files contain.Â 
+When building your UE4 project for development or deployment with HTML5 you have the option to use compressed or uncompressed files. The following chart breaks down what files are required for uncompressed builds and what information these files contain. 
 
-**Files Required for Non-Compressed Files Deployment** \- The following files are created when a non-compressed build is created.  
+**Files Required for Non-Compressed Files Deployment** \- The following files are created when a non-compressed build is created.
 
 [REGION:simpletable]
 |File Type|Description|
@@ -135,7 +135,7 @@ When building your UE4 project for development or deployment withÂ HTML5 you hav
 | **.htaccess** | Distributed configuration file |
 [/REGION]
 
-**Files Required for Compressed FilesÂ Deployment** \- The following files are created when a compressed build is crated.
+**Files Required for Compressed Files Deployment** \- The following files are created when a compressed build is crated.
 
 [REGION:simpletable]
 |File Type|Description|
@@ -152,7 +152,7 @@ When building your UE4 project for development or deployment withÂ HTML5 you hav
 When using the compressed version of the files you will also need to make sure to include the uncompressed version of the **.htaccess** file and the **.html** file.
 [/REGION]
 
-**Files not needed for Deployment** -The following files are created when both a compressed and uncompressed version of the project is created. However these files are onlyÂ needed when your project is under development or being tested.
+**Files not needed for Deployment** -The following files are created when both a compressed and uncompressed version of the project is created. However these files are only needed when your project is under development or being tested.
 
 [REGION:simpletable]
 |File Name|Description|

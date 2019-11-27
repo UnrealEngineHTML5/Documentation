@@ -1,0 +1,488 @@
+# Emscripten and UE4
+
+this page will show you how to:
+
+- run the HTML5 [Setup.sh](#the-html5-setupsh-build-script) build script -- which will automatically:
+	- fetch `EMSDK` (which will be used to install the `Emscripten Toolchain`)
+	- build all of the UE4 Thirdparty libraries used for HTML5
+- [package a UE4 sample project for HTML5](#package-a-sample-blueprint-project-for-html5)
+- play a [UE4 multi-player game with HTML5](#ue4-multi-player-testing-with-html5)
+- [upgrade the emscripten toolchain](#upgrading-emscripten-toolchain)
+	- and show which UE4 `C#` files are essential (to add/modify emscripten commands used) during HTML5 packaging
+
+
+* * *
+## First Things First
+
+back in [Get Source File](README.0.building.UE4.Editor.md#get-source-files), a clone of a
+special branch based on Release-4.24 was used (which was put in (e.g.) `.../ue4-r424-html5`
+and will be used in this HowTo page) -- with the HTML5 platform files already populated.
+
+- NOTE: this is the last snapshot for HTML5 that is now "officially depricated" from UE4
+	- HTML5 has been moved (out) as a `Platform Extension` to be community-driven at this point
+	- but, work as gone in to help provide a working "staring point"
+		(especially as the last **ES2** (WebGL1) render target) for this new (platform extensions) mechanism
+	- these pages and files are the results of that work
+
+
+DO NOT IMMEDIATELY TRY TO UPGRADE ANYTHING IF THIS IS YOUR FIRST TIME HERE !!!
+
+that said, if you want to work off of a newer version of Unreal Engine,
+extra information is placed in:
+- [UE4 HTML5 F.A.Q.](README.4.faq.UE4.HTML5.md#trying-to-get-latest-unreal-engine-working-with-html5-platform-extensions)
+	- along with addtional steps to take to put HTML5 back into the repository tree
+
+- NOTE: this is **NOT** the same thing as upgrading the emscripten toolchain
+	- upgrading emscripten is a lot more stright-forward than upgrading Unreal Engine
+	- upgrading the emscripten toolchain will be shown at the end of this page
+	- upgrading Unreal Engine, again, is put in the FAQ section (see just above)
+
+AGAIN, DO NOT IMMEDIATELY TRY TO UPGRADE ANYTHING IF THIS IS YOUR FIRST TIME HERE !!!
+
+
+moving on...
+
+
+* * *
+* * *
+## The HTML5 Setup.sh Build Script
+
+in order to package Unreal Engine for HTML5, we need to perform a number of steps
+to get the UE4 Editor able to package for HTML5.
+- NOTE: this only needs to be done **once** (per local repo)
+
+all of these steps are all gathered in the (e.g.) `.../ue4-r424-html5/Engine/Platforms/HTML5/Setup.sh`
+build scripts (not to be confused with the [Engine's Setup](README.0.building.UE4.Editor.md#a-note-on-engine-setupbat-setupcommand-and-setupsh)
+script (i.e.) `.../ue4-r424-html5/Setup.sh`).  let go over each of those steps now.
+
+### on Windows
+
+open `git-bash`
+- this was installed as part of the
+	[Development Environment Requirements](README.0.building.UE4.Editor.md#development-environment-requirements) section
+- change the directory to where your UE4 was cloned to
+	- e.g. `cd ue4-r424-html5`
+- or, you can use **File Explorer** and right click on the **ue4-r424-html5** folder and select `Git Bash Here`
+
+
+### on Mac and Linux
+
+open the Terminal 
+
+- change directory to the location where UE4 was cloned to (as we have seen
+	in the [Generate Project/Make Files](README.0.building.UE4.Editor.md#generate-projectmake-files) section)
+	- e.g. `cd ue4-r424-html5`
+
+
+### Fetch EMSDK and Build ThirdPary Libraries for HTML5
+
+in `git-bash` (for windows) or in the `terminal` (for mac or linux), do the
+following (yes, these commands will work the same on all 3 OS):
+
+```bash
+# remember, we are now in the ue4-r424-html5 folder
+cd Engine/Platforms/HTML5
+./Setup.sh
+```
+
+this will take a while to complete (again, this is only a **one-time** setup):
+- emsdk is a small and quick clone
+- but, emscripten will take roughly 10 minutes or so
+	> emscripten will also get **patched** that have been found to be needed with building for UE4
+	(more about this in the [upgrading emscripten](#upgrading-emscripten-toolchain) section below)
+- finally, building the thirdparty libraries will take an hour or two
+	> please see the FAQ about why [XXX emscripten ports]() is not used in UE4
+
+
+* * *
+* * *
+## Package a Sample BluePrint Project For HTML5
+
+these should now start to now look more familiar to you.
+
+restart the Editor with the project name appended:
+- note the use of `BP_FP` here (that was created in [Creating a Sample Blueprint Project](README.0.building.UE4.Editor.md#-creating-a-sample-blueprint-project-))
+
+#### on Windows
+
+	...\Engine\Binaries\Win64\UE4Editor.exe BP_FP -log
+
+#### on Mac
+
+	.../Engine/Binaries/Mac/UE4Editor BP_FP -log
+
+#### on Linux
+
+	.../Engine/Binaries/Linux/UE4Editor BP_FP -log
+
+> TIP: put the command in a shortcut (or alias, script, etc.)
+
+
+### Readying UE4Editor
+
+let's go over this part [again](README.0.building.UE4.Editor.md#window-2) now that we are looking at HTML5:
+
+#### window #2
+
+- Menu bar -> Edit -> Project Settings ...
+	- click around (and look around) the **Project Settings** categories and options for EVERYTHING (including the kitchen sink)
+
+	- (**NEW**) here's a list I always click on **and** look at before each and every packaging (for all platforms):
+		- Project -> Maps & Modes
+			- **Default Maps** -> Game Default Map
+		- Project -> Packaging
+			- Packaging -> **Use Pak File**
+				- I normally **UN**check this to help the asset builds (i.e. "cooking") go a little faster
+					(by not having to build this additional step) -- emscripten has it's own assets bundler
+					mechanism (see [Emscripten Packaging Files](https://emscripten.org/docs/porting/files/packaging_files.html)
+					for more information about this)
+			- Project -> **Full Rebuild**
+				- just make a note this exists here
+		- Engine -> Rendering
+			- Mobile
+				- note: the HTML5 render path uses the same one writen for mobile, that's why it's good to check-in here every now and then
+					- again, it is currently set to use ES2 (WebGL1) -- but, 4.25 will drop support for ES2 (see [XXX FAQ]() for more info on this)
+				- see [Content Development](../HTML5.md#content-development) and
+					[Mobile MSAA](../GettingStarted/HTML5GettingStarted.md#html5-required-project-setup)
+					just in case you are see rendering issues on your projects
+		- Platforms -> HTML5
+			- Emscripten -> **Multithreading support**
+				- for 4.24 -- this MUST be enabled (there's a crash bug in single threaded mode that is slated to be fixed in 4.25)
+
+
+### Build the Sample BluePrint Project
+
+set the build type:
+- Menu bar -> File -> **Package Project** -> Build Configuration
+	- select **Development** for BugHunting =)
+	- otherwise, select **Shipping** when deploying for release
+
+finally, package for HTML5:
+- Menu bar -> File -> Package Project -> **HTML5**
+	- select the folder where the final files will be **archived** to
+		- e.g. on Windows: `D:\Builds\BP_FP\`
+		- e.g. on Mac or Linux: `/ue4/Builds/BP_FP/`
+
+	- this is going to take while to complete... (more about this in the [upgrading emscripten](#upgrading-emscripten-toolchain) section below)
+		- go take a nap
+
+note: if you run into any problems here, take a look at the [FAQ](README.4.faq.UE4.HTML5.md)
+to see if there are any common issues that you might be hitting.
+
+
+* * *
+## Test Sample BluePrint Project for HTML5
+
+### on Windows via File Explorer
+
+- open `File Explorer` to the location where files were **archived** to
+	- e.g. `D:\Build\BP_FP\HTML5`
+	- double click on `HTML5LaunchHelper.exe`
+
+
+### on Mac via Finder
+
+- open `Finder` to the location where files were **archived** to
+	- e.g. `/ue4/Build/BP_FP/HTML5`
+	- double click on `HTML5LaunchHelper.command`
+
+
+### on Windows, Mac or Linux via command line
+
+in `git-bash` (for windows) or in the `terminal` (for mac or linux), you can
+use python's built in web server to host the files quick and easy.
+
+#### on Windows
+
+```bash
+cd /D/Build/BP_FP/HTML5
+python -m SimpleHTTPServer 8000
+```
+
+#### on Mac or Linux
+
+```bash
+cd /ue4/Build/BP_FP/HTML5
+python -m SimpleHTTPServer 8000
+```
+
+
+* * *
+## Chrome or Firefox (64-bit version recommended)
+
+- open browser to http://localhost:8000/
+	- click on the relevant HTML file ( e.g. http://localhost:8000/BP_FP.html )
+
+- if you are having problems seeing the game run (**especially on the first time running this**)
+	- you may need to configure your browser to allow "multi-threading" support
+		- for Chrome: set `chrome://flags/#enable-webassembly-threads` as `WebAssembly threads support`
+		- for Firefox: in `about:config` set `javascript.options.shared_memory` preference to `true` to enable **SharedArrayBuffer**
+	- then try reloading the project in your browser
+	- you may need to restart your browser if you are still having problems
+
+
+* * *
+* * *
+## UE4 Multi-player Testing With HTML5
+
+let's try something fun here.  in the last HowTo page, we were introduced to
+the [UnrealFrontEnd](README.0.building.UE4.Editor.md#project-launcher-interface)
+or UFE for short.
+- we will use this to create a (Desktop) Server, Desktop Client and HTML5 Client
+- again, because we are using a special branch here, much of the heavy work has already been done
+- a more indepth HowTo on how this is done will be explained in the next HowTo:
+	[Advanced Example of Building a UE4 HTML5](README.2.advanced.UE4.HTML5.md)
+
+let us start with creating a `Custom Launch Profile` in the UFE to demonstrate
+creating a multi-player system.
+
+run **UnrealFrontEnd**:
+
+##### on Windows
+
+	...\Engine\Binaries\Win64\UnrealFrontend.exe
+
+##### on Mac
+
+	.../Engine/Binaries/Mac/UnrealFrontend
+	TODO find actual target name !!!
+
+##### on Linux
+
+	.../Engine/Binaries/Linux/UnrealFrontend
+
+click on the **Custom Launch Profiles** `Add` (plus-button):
+
+![](Images/frontend_profiles.png)
+
+to set up a multi-player test, we are going to build the desktop server and
+desktop client (as our base line test system).  at the same time, we will also
+build the HTML5 client.
+- select **Project** to `BP_FP`
+- select **Build Configuration**
+	- select `Development` or `Shipping`
+- select **Cook** to `By the book`
+- select **Cooked Plaforms** to:
+	- on Windows: `WindowsClient` and `WindowsServer`
+	- on Mac: `MacClient` and `MacServer`
+	- on Linux: `LinuxClient` and `LinuxServer`
+	- AND check box on for HTML5
+- select **Package** to `Package & store locally`
+- in **Archive**, check the box `on`
+	- and set the archive path:
+		- e.g. on Windows: `D:\Builds\BP_FP\`
+		- e.g. on Mac or Linux: `/ue4/Builds/BP_FP/`
+- select **Deploy** to `Do not deploy`
+
+![](Images/frontend_custom_profile.png)
+
+now, press the `Back` button (upper right) which will automatically save this new profile
+- note: if you wanted to change the name of the profile, edit the profile again
+	by clicking on the **Edit** (wrench and screwdriver) button, double click on
+	`New Profile` and type a name for this profile
+- you can also give this profile a small description by double clicking on the
+	`Enter a description here.` and type what ever you want for this profile
+
+back in the **Project Launcher** click on the `Launch` button for your profile
+to begin packaging everything.
+
+![](Images/frontend_launch_profile.png)
+
+after the build is done (which may take a while to complete) in your **archive**
+folder, you should see something like this:
+
+### Launch the Server
+
+	TODO: FINISH ME
+
+#### on Windows:
+
+	TODO: FINISH ME
+
+#### on Mac:
+
+	TODO: FINISH ME
+
+#### on Linux:
+
+	TODO: FINISH ME
+
+### Launch the Desktop Client
+
+	TODO: FINISH ME
+
+#### on Windows:
+
+	TODO: FINISH ME
+
+#### on Mac:
+
+	TODO: FINISH ME
+
+#### on Linux:
+
+	TODO: FINISH ME
+
+### Launch the HTML5 Client
+
+	TODO: FINISH ME
+
+#### on Windows:
+
+	TODO: FINISH ME
+
+#### on Mac and Linux:
+
+	TODO: FINISH ME
+
+
+> again, we will do an [Advanced Example of Building a UE4 HTML5](README.2.advanced.UE4.HTML5.md)
+multi-player example in the next HowTo.
+
+
+* * *
+* * *
+## Upgrading Emscripten Toolchain
+
+this may only be of interest to anyone who wishes to keep this community-supported
+project going.
+
+this section will go over what HTML5's [Setup.sh]() does in detail.
+- we will perform an `emscripten toolchain` upgrade when explaining this
+	- some reasons for upgrading the emscripten toolchain include:
+		- bug fixes
+		- new features
+		- link times have vastly improved with emscripten "upstream" (clang 10)
+			- but, at the time of this writting, thirdparty libraries built with emscripten "upstream" will crash at runtime
+			- thus, emscripten "fastcomp" (clang 6) is still used when building thirdparty libraries
+			- this will get fixed someday and the `Setup.sh` build script will be updated to make use of that when the time comes
+
+
+### EMSDK
+
+HTML5's `Setup.sh` will aways pull a fresh copy of emsdk into its own folder
+- i.e. i never `git pull` on my local emsdk weeks/months down the line
+- i do this to ensure there are no extra files from older versions getting accidentally left around
+	- in other words, we do not wish to pollute new versions with old stuff
+- also, having multiple versions in their own folders allows us to quickly change between toolchain versions for testing purposes
+
+> note: when building emscripten from source (i.e. not the precompiled
+SDK - e.g. `incoming` branch) -- then yes, i would `git pull` -- but,
+this is usually (again) in a separate WIP folder...
+
+
+### Upgrade Emscripten Version
+
+let's start the upgrade.
+- edit HTML5's `Setup.sh` file
+- look for the `EMVAR` variable (very near the top of the file)
+	- it is currently set to `1.39.0`
+	- let's change this to `1.39.2` (or `latest` if you're bleeding edge)
+- save the file and exit your text editor
+
+re-run the Setup.sh script using pretty much the same steps from
+[Fetch EMSDK and Build ThirdPary Libraries for HTML5](#fetch-emsdk-and-build-thirdpary-libraries-for-html5)
+above.
+
+in `git-bash` (for windows) or in the `terminal` (for mac or linux):
+
+```bash
+# remember, we are now in the ue4-r424-html5 folder
+cd Engine/Platforms/HTML5
+./Setup.sh
+```
+
+again, this may take an hour or so to complete.
+
+- but, this is also where most compiler issues arise
+	- some due to new compiler warnings (set to be treated as errors)
+	- others due to deprecated compiler options
+	- and so on
+
+- take a look at the [XXX FAQ](README.4.faq.UE4.HTML5.md) to see tips on how to fix this
+
+
+### HTML5's Setup.sh Deep Dive
+
+#### UnrealBuildTool HTML5 Injection
+
+	TODO: FINISH ME
+
+#### Patching UE4 Code
+
+	TODO: FINISH ME
+
+#### Patching emscripten
+
+	TODO: FINISH ME
+
+
+* * *
+## Updating UE4 C# Scripts
+
+the following files are used by UE4 Editor when packagng for HTML5:
+
+##### Engine/Platforms/HTML5/Source/Programs/UnrealBuildTool/HTML5SDKInfo.cs
+- the only things of interest here are the string variables listed at the top of the HTML5SDKInfo class
+	- `SDKVersion` -- for this demo, change this to `1.39.2` (or `latest` if bleeding edge)
+	- `NODE_VER`
+	- `PYTHON_VER`
+
+
+##### Engine/Platforms/HTML5/Source/Programs/UnrealBuildTool/HTML5ToolChain.cs
+- this is where everything is put (1) on setting up and (2) to run emscripten from UE4
+- THE functions that builds the emscripten command line options:
+	- `GetSharedArguments_Global()` - used in both compilation and linking
+	- `GetCLArguments_CPP()` - used in compilation only
+	- `GetLinkArguments()` - used in linking only
+
+> this file will sometimes need updating (e.g. new or deprecated compiler options)
+
+> again, take a look at the [XXX FAQ](README.4.faq.UE4.HTML5.md) to see if there are any common issues that you might be hitting
+
+
+##### Engine/Platforms/HTML5/Source/Programs/AutomationTool/HTML5Platform.Automation.cs
+- the top half of this C# file is where the files built are selected and archived
+(as we have seen in [Build the Sample BluePrint Project](#build-the-sample-blueprint-project) above)
+	- this is where emscripten sometimes changes the files:
+		- generated that needs to be added to the **archive** process
+		- or no longer generates and need to be removed from the **archive** process
+- the rest of the file are used for UE4's Editor options that the HTML5 packaging supports
+
+
+### a note on windows
+
+after editing the AutomationTool and UnrealBuildTool files, these support
+programs will need to be rebuilt.  on Mac and Linux, they are always done
+at the start of any packaging process.
+
+windows needs some help.
+
+> NOTE: it seems that latest Editor will rebuild the C# (AutomationTool) project automatically when packaging (for example) HTML5.
+
+> BUT: UnrealBuildTool still needs to be manually built on windows !!!
+
+- **so**, every-now-and-then ... **this sometimes needs manual intervention:**
+	- in the **Solution Explorer -> Solution -> Programs**, build (the following support programs):
+		- AutomationTool
+		- UnrealBuildTool
+
+
+* * *
+## Test Upgraded Toolchain
+
+be sure to package a "**SANITY CHECK"** build:
+- no engine changes, just the build toolchain (emscripten) changes only
+
+in this example, do the exact same steps done above:
+- [Build the Sample BluePrint Project](#build-the-sample-blueprint-project)
+- [Test Sample BluePrint Project for HTML5](#test-sample-blueprint-project-for-html5)
+- [Chrome or Firefox (64-bit version recommended)](#chrome-or-firefox-(64-bit-version-recommended))
+
+
+* * *
+* * *
+
+Next, [Advanced Example of Building a UE4 HTML5](README.2.advanced.UE4.HTML5.md)
+
+* * *

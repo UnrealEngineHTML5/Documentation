@@ -4,15 +4,15 @@ HTML5 platform support has been migrated to GitHub as a community-supported Plat
 
 HTML5 uses the [Emscripten Toolchain](https://emscripten.org/docs/introducing_emscripten/about_emscripten.html#emscripten-toolchain) from [Mozilla](https://www.mozilla.org/en-US/) to cross-compile C++ into Javascript.
 
-## Starting Out
-
-*   [Developing HTML5 Projects](./GettingStarted/HTML5GettingStarted.md)
+* * *
+*   [Getting Started with UE4 for HTML5](./GettingStarted/HTML5GettingStarted.md)
 
 *   [HTML5 Development Requirements](./HTML5SDKRequirements/HTML5SDKRequirements.md)
 
+* * *
 ## Content Development
 
-When building content aimed at the HTML5 platform, you can use the guidelines for creating mobile-oriented content as many of the restrictions for mobile development are applicable to HTML5 development.
+When building content aimed at the HTML5 platform, you can use the guidelines for creating mobile-oriented content as many of the restrictions for mobile development are applicable to HTML5 development.
 
 *   [Materials for Mobile Platforms](https://docs.unrealengine.com/en-US/Platforms/Mobile/Materials)
 
@@ -32,10 +32,14 @@ When building content aimed at the HTML5 platform, you can use the guidelines fo
 
 *   [Mobile Packaging Wizard](https://docs.unrealengine.com/en-US/Platforms/Mobile/MobilePackagingWizard)
 
+* * *
 ## Samples
 
 ![ActionRPG.jpg](Images/ActionRPG-resize514x289.jpg "ActionRPG.jpg")
 
-The following link will allow you to play an HTML5 version of Action RPG right in your web browser. 
+The following link will allow you to play an HTML5 version of Action RPG right in your web browser.
 
 [Action RPG in HTML5](https://epiclearningresources.000webhostapp.com/ActionRPG/ActionRPG-HTML5-Shipping.html)
+
+* * *
+

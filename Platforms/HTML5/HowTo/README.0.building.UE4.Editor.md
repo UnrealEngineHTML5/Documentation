@@ -96,7 +96,7 @@ cd -
 ### on Mac
 
 ```
-# open a command prompt to
+# open a terminal to
 cd ue4-r424-html5
 ./Setup.command
 
@@ -112,7 +112,7 @@ cd -
 ### on Linux
 
 ```
-# open a command prompt to
+# open a terminal to
 cd ue4-r424-html5
 ./Setup.sh
 

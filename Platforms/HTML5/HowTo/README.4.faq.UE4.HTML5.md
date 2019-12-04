@@ -93,9 +93,9 @@ git checkout 4.24-html5
 > this means, HTML5 rendering code and shader compiler will need to be changed to **only** support `ES3` (WebGL2) and above
 
 
-#### Engine/Platforms/HTML5/Setup.sh
+#### Engine/Platforms/HTML5/HTML5Setup.sh
 
-rerun `Engine/Platforms/HTML5/Setup.sh` build script (see [HERE](README.1.emscripten.UE4.HTML5.md#the-html5-setupsh-build-script)
+rerun `Engine/Platforms/HTML5/HTML5Setup.sh` build script (see [HERE](README.1.emscripten.UE4.HTML5.md#html5setupsh-build-script)
 for a refresher).  this will:
 - re-setup the emscripten toolchain
 - re-build all ThirdParty libraries HTML5 uses (that Epic sometimes edits)
@@ -155,7 +155,7 @@ help page after clicking on **Menu Bar -> File -> Package Project -> HTML5**
 * * *
 ### bit packing brokeness
 
-#### tobool63.i = icmp slt i176
+##### tobool63.i = icmp slt i176
 
 TODO FINISH ME...
 
@@ -165,11 +165,12 @@ Engine/Binaries/HTML5/w$ egrep -B 1000 -A 20 "tobool63.i = icmp slt i176" ../UE4
 Engine/Source/Runtime/Engine/Classes/Engine$ cat Scene.h.save | perl -0p -e "s/uint\d+\s+(.+)\s?:\s?1;/bool \1;/g" > Scene.h
 ```
 
-#### PLATFORM_USE_SHOWFLAGS_ALWAYS_BITFIELD
+##### PLATFORM_USE_SHOWFLAGS_ALWAYS_BITFIELD
 
 TODO FINISH ME
 
 
+* * *
 ### Common Compiler Issues When Upgrading Emscripten Toolchain
 
 TODO: FINISH ME...
@@ -202,7 +203,7 @@ you can change HTML and CSS template files to make them stick every re-packaing
 - for all projects:
 	- `.../Engine/Platforms/HTML5/Build/TemplateFiles/*`
 - however, we recommend developers (i.e. game makers) putting their custom template file changes in the project's own folder
-	- copy `TempateFiles/*` (above) to `.../<Project>/Build/HTML5/<HERE>`
+	- copy `TempateFiles/*` (see just above) to `.../<Project>/Build/HTML5/<HERE>`
 
 
 #### Build Folders

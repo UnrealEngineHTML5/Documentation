@@ -29,6 +29,8 @@ please ensure you have the following tools downloaded and installed:
 		- accept all defaults (including `use MinTTY`) for the rest of the install
 - [Python](https://www.python.org/downloads/) 2.7.12 or above
 - [CMake](https://cmake.org/download/) 3.12 or above
+	- make sure to choose the option to add cmake to the `PATH` (local user or all users)
+	- you will most likely need to log out and log back in to have this `PATH` updated
 
 and, ensure you have the respective compiler tools for your desktop:
 
@@ -61,14 +63,33 @@ remember, HTML5 is no longer an officially supported platform at Epic Games -- h
 * * *
 ## Generate Project/Make Files
 
+NOTE: due to the special branch that already has HTML5 platform files populated,
+we are going to squeeze in calling HTML5Setup.sh here.
+
+we will do an indepth explaination of [HTML5Setup.sh](README.1.emscripten.UE4.HTML5.md#html5setupsh-build-script)
+in the next HowTo.
+
+HEADS UP: the first time running this may take a while:
+- Setup.bat/Setup.command/Setup.sh may take up to 20 minutes
+- HTML5Setup.sh may take up to an hour or so
+- GenerateProjectFiles.bat/GenerateProjectFiles.command/GenerateProjectFiles.sh may take up to 5 minutes
+
+
 ### on Windows
 
 ```
-:: open a DOS command prompt to
+# open git-bash
+# or, you can use "File Explorer" and right click on the
+# "ue4-r424-html5" folder and select "Git Bash Here"
 cd ue4-r424-html5
-Setup.bat
-GenerateProjectFiles.bat
-:: open the generated visual studio solution
+./Setup.bat
+
+cd Engine/Platforms/HTML5
+./HTML5Setup.sh
+cd -
+
+./GenerateProjectFiles.bat
+# open the generated visual studio solution
 ```
 
 
@@ -78,6 +99,11 @@ GenerateProjectFiles.bat
 # open a command prompt to
 cd ue4-r424-html5
 ./Setup.command
+
+cd Engine/Platforms/HTML5
+./HTML5Setup.sh
+cd -
+
 ./GenerateProjectFiles.command
 # open the generated xcode project
 ```
@@ -89,6 +115,11 @@ cd ue4-r424-html5
 # open a command prompt to
 cd ue4-r424-html5
 ./Setup.sh
+
+cd Engine/Platforms/HTML5
+./HTML5Setup.sh
+cd -
+
 ./GenerateProjectFiles.sh
 ```
 

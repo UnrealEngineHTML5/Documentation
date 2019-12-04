@@ -2,7 +2,7 @@
 
 this page will show you how to:
 
-- run the HTML5 [Setup.sh](#the-html5-setupsh-build-script) build script -- which will automatically:
+- run [HTML5Setup.sh](#html5setupsh-build-script) build script -- which will automatically:
 	- fetch `EMSDK` (which will be used to install the `Emscripten Toolchain`)
 	- build all of the UE4 Thirdparty libraries used for HTML5
 - [package a UE4 sample project for HTML5](#package-a-sample-blueprint-project-for-html5)
@@ -45,17 +45,21 @@ moving on...
 
 * * *
 * * *
-## The HTML5 Setup.sh Build Script
+## HTML5Setup.sh Build Script
+
+> NOTE: if you are continuing from the previous [HowTo](README.0.building.UE4.Editor.md#generate-projectmake-files)
+	and have already run `HTML5Setup.sh`, you can skip down to the next section:
+	[Package a Sample BluePrint Project For HTML5](#package-a-sample-blueprint-project-for-html5)
+
+> but, if you want to understand what `HTML5Setup.sh` does, please continue reading on.
+
 
 in order to package Unreal Engine for HTML5, we need to perform a number of steps
 to get the UE4 Editor able to package for HTML5.
 - NOTE: this only needs to be done **once** (per local repo)
 
-all of these steps are all gathered in the (e.g.) `.../ue4-r424-html5/Engine/Platforms/HTML5/Setup.sh`
+all of these steps are all gathered in the (e.g.) `.../ue4-r424-html5/Engine/Platforms/HTML5/HTML5Setup.sh`
 build scripts.
-
-> (not to be confused with the [Engine's Setup](README.0.building.UE4.Editor.md#a-note-on-engine-setupbat-setupcommand-and-setupsh)
-script (i.e.) `.../ue4-r424-html5/Setup.sh`)
 
 
 ### on Windows
@@ -85,7 +89,7 @@ following (yes, these commands will work the same on all 3 OS):
 ```bash
 # remember, we are now in the ue4-r424-html5 folder
 cd Engine/Platforms/HTML5
-./Setup.sh
+./HTML5Setup.sh
 ```
 
 this will take a while to complete (again, this is only a **one-time** setup):
@@ -315,7 +319,7 @@ build the HTML5 client.
 - select **Project** to `CPP_TP`
 - select **Build Configuration**
 	- select `Development` (we are going to use the **game console** to **open a connection** to the game server below)
-	- but, you can select `Shipping` when deploying for release
+	- but, you can select `Shipping` when deploying for release (just note: **game console** will NOT be available in `Shipping` builds)
 - select **Cook** to `By the book`
 - select **Cooked Plaforms** for:
 	- on Windows: `WindowsNoEditor` and `WindowsServer`
@@ -410,7 +414,7 @@ multi-player example in the next HowTo.
 this may only be of interest to anyone who wishes to keep this community-supported
 project going.
 
-this section will go over what HTML5's [Setup.sh]() does in detail.
+this section will go over what [HTML5Setup.sh](#html5setupsh-build-script) does in detail.
 - we will perform an `emscripten toolchain` upgrade when explaining this
 	- some reasons for upgrading the emscripten toolchain include:
 		- bug fixes
@@ -418,12 +422,12 @@ this section will go over what HTML5's [Setup.sh]() does in detail.
 		- link times have vastly improved with emscripten "upstream" (clang 10)
 			- but, at the time of this writting, thirdparty libraries built with emscripten "upstream" will crash at runtime
 			- thus, emscripten "fastcomp" (clang 6) is still used when building thirdparty libraries
-			- this will get fixed someday and the `Setup.sh` build script will be updated to make use of that when the time comes
+			- this will get fixed someday and the `HTML5Setup.sh` build script will be updated to make use of that when the time comes
 
 
 ### EMSDK
 
-HTML5's `Setup.sh` will aways pull a fresh copy of emsdk into its own folder
+`HTML5Setup.sh` will aways pull a fresh copy of emsdk into its own folder
 - i.e. i never `git pull` on my local emsdk weeks/months down the line
 - i do this to ensure there are no extra files from older versions getting accidentally left around
 	- in other words, we do not wish to pollute new versions with old stuff
@@ -437,13 +441,13 @@ this is usually (again) in a separate WIP folder...
 ### Upgrade Emscripten Version
 
 let's start the upgrade.
-- edit HTML5's `Setup.sh` file
+- edit `HTML5Setup.sh` file
 - look for the `EMVAR` variable (very near the top of the file)
 	- it is currently set to `1.39.0`
 	- let's change this to `1.39.4` (or `latest` if you're bleeding edge)
 - save the file and exit your text editor
 
-re-run the Setup.sh script using pretty much the same steps from
+re-run HTML5Setup.sh using pretty much the same steps from
 [Fetch EMSDK and Build ThirdPary Libraries for HTML5](#fetch-emsdk-and-build-thirdpary-libraries-for-html5)
 above.
 
@@ -452,7 +456,7 @@ in `git-bash` (for windows) or in the `terminal` (for mac or linux):
 ```bash
 # remember, we are now in the ue4-r424-html5 folder
 cd Engine/Platforms/HTML5
-./Setup.sh
+./HTML5Setup.sh
 ```
 
 again, this may take an hour or so to complete.
@@ -465,10 +469,10 @@ again, this may take an hour or so to complete.
 - take a look at [this FAQ](README.4.faq.UE4.HTML5.md#common-compiler-issues-when-upgrading-emscripten-toolchain) to see tips on how to fix this
 
 
-### HTML5's Setup.sh Deep Dive
+### HTML5Setup.sh Deep Dive
 
-follow along this explaination by going opening a page to the
-[Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24-html5/Engine/Platforms/HTML5/Setup.sh)
+follow along this explaination by going opening a page to
+[HTML5Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24-html5/Engine/Platforms/HTML5/HTML5Setup.sh)
 file.
 - again: if you see a `404 This is not the web page you are looking for` error
 	- Double check you are logged in to GitHub
@@ -534,7 +538,7 @@ emscripten toolchain) when packaging for HTML5:
 
 ##### Engine/Platforms/HTML5/Source/Programs/UnrealBuildTool/HTML5SDKInfo.cs
 - the only things of interest here are the string variables listed at the top of the HTML5SDKInfo class
-	- `SDKVersion` -- for this demo, change this to `1.39.2` (or `latest` if bleeding edge)
+	- `SDKVersion` -- for this demo, change this to `1.39.4` (or `latest` if bleeding edge)
 	- `NODE_VER`
 	- `PYTHON_VER` -- (used on windows only)
 

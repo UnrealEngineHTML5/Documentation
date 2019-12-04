@@ -74,7 +74,8 @@ git checkout 4.24-html5
 
 #### Engine/Platforms/HTML5/Setup.sh
 
-rerun `Engine/Platforms/HTML5/Setup.sh` build script (see [XXX HERE]() for a refresher).  this will:
+rerun `Engine/Platforms/HTML5/Setup.sh` build script (see [HERE](README.1.emscripten.UE4.HTML5.md#the-html5-setupsh-build-script)
+for a refresher).  this will:
 - re-setup the emscripten toolchain
 - re-build all ThirdParty libraries HTML5 uses (that Epic sometimes edits)
 - re-inject the HTML5 platform into UnrealBuildTool
@@ -107,7 +108,7 @@ with new Unreal Engine code now ready, re-build the Editor:
 make sure your existing development platform isn't broken. try to:
 [Package a Sample BluePrint Project](README.0.building.UE4.Editor.md#package-a-sample-blueprint-project) first.
 
-and then finally, try to: [XXX package a UE4 sample project for HTML5]()
+and then finally, try to: [package a UE4 sample project for HTML5](README.1.emscripten.UE4.HTML5.md#package-a-sample-blueprint-project-for-html5)
 
 
 * * *
@@ -116,78 +117,82 @@ and then finally, try to: [XXX package a UE4 sample project for HTML5]()
 
 TODO FINISH ME...
 
-	Engine/Binaries/HTML5$ llvm-dis-6.0 UE4Game.bc
-	Engine/Binaries/HTML5/w$ egrep -B 1000 -A 20 "tobool63.i = icmp slt i176" ../UE4Game.ll > z1.txt
-	Engine/Source/Runtime/Engine/Classes/Engine$ cat Scene.h.save | perl -0p -e "s/uint\d+\s+(.+)\s?:\s?1;/bool \1;/g" > Scene.h
+```bash
+Engine/Binaries/HTML5$ llvm-dis-6.0 UE4Game.bc
+Engine/Binaries/HTML5/w$ egrep -B 1000 -A 20 "tobool63.i = icmp slt i176" ../UE4Game.ll > z1.txt
+Engine/Source/Runtime/Engine/Classes/Engine$ cat Scene.h.save | perl -0p -e "s/uint\d+\s+(.+)\s?:\s?1;/bool \1;/g" > Scene.h
+```
+
 
 * * * 
 * * * 
 ## Unreal Engine HTML5 Files
 
-TODO FINISH THIS...
 
-TODO FINISH THIS...
-
-TODO FINISH THIS...
-
-
-just in case you're curious where the build files are, look at **in** the `CPP_TP` **project files location**:
-- `.../CPP_TP/Saved/StagedBuilds/WindowsNoEditor/` 
-- `.../CPP_TP/Saved/StagedBuilds/MacNoEditor/` 
-- `.../CPP_TP/Saved/StagedBuilds/LinuxNoEditor/` 
+#### Custom HTML TemplatesFiles
+you can change HTML and CSS template files to make them stick every re-packaing
+- for all projects:
+	- `.../Engine/Platforms/HTML5/Build/TemplateFiles/*`
+- however, we recommend developers (i.e. game makers) putting their custom template file changes in the project's own folder
+	- copy `TempateFiles/*` (above) to `.../<Project>/Build/HTML5/<HERE>`
 
 
-	- you can change template files here to make them stick system-wide on every re-packaing
-		- however, we recommend developers (i.e. game makers) putting their custom template file changes in the project's own folder
-		(`.../<Project>/Build/HTML5/`)
+#### Build Folders
 
-- **Engine/Platforms/HTML5/Build/BatchFiles/Build_All_HTML5_libs.rc**
-	- this **_used_** to setup my shell environment (where currently, I now use `source .../emsdk/emsdk_set_env.sh`)
-	when I need to _rebuild the thirdparty libraries_ for HTML5 (**from the OSX or Linux commandline**)
-	- **_now_**, this file has notes reminding me of the changes needed to the emscripten toolchain for UE4 purposes
-		- please see the file if you're curious (especially the "**upgrading emsdk - REMEMBER TO DO THE FOLLOWING**" section)
+before the final copy to the **archive** folder, they are staged at:
+
+- for **blueprint projects**
+		- `.../Engine/Binaries/HTML5/`
+- for **C++ projects** (e.g. project is named `CPP_TP`)
+	- `.../CPP_TP/Saved/StagedBuilds/WindowsNoEditor/`
+	- `.../CPP_TP/Saved/StagedBuilds/MacNoEditor/`
+	- `.../CPP_TP/Saved/StagedBuilds/LinuxNoEditor/`
+
+do not edit anything in those folders, they will be stompped on after every packaging.
+	- i.e. treat this folder as READ ONLY
 
 
-- **Engine/Platforms/HTML5/Build/BatchFiles/Build_All_HTML5_libs.sh**
-	- after pulling down a new version of emscripten, we **have to rebuild** the (UE4's) thirdparty libs used with HTML5
-		- i.e. **new toolchain --> new binaries**
-	- this shell script spells out which libs need to be rebuilt for HTML5
-	- scan the additional scripts called from this file for more details
-		- every now and then, the Makefiles, CMake files, or something needs to change
+#### Engine/Intermediate/Build/HTML5/EmscriptenCache
+- every time you upgrade/change your toolchain version (or switch between them or make a local modification
+	to `.../emsdk/emscripten/<version>/system/...` you will need to delete the respective *.bc file or the
+	whole folder to ensure your changes are recompiled
+
+
+#### emscripten ports
+- while a lot of the UE4 Thirdparty libs (used with HTML5 builds) are also available as escripten ports:
+	- there are a number of custom UE4 changes that are required to make the engine functional for HTML5
+	- for now, we recommend using the UE4 versions until this is revisited in the future
+- NOTE: when using ports, remember to "turn off" UE4's version
+	- e.g. if you wish to use emscripten's version of SDL2 -- you will need to disable UE4's version:
+		- edit: **.../Engine/Thirdparty/SDL2/SDL2.Build.cs**
+		- delete/comment out the HTML5 section and save the file
+		- this change will be automatically picked up at packaging time
+
+
+#### Engine/Platforms/HTML5/Build/BatchFiles/Build_All_HTML5_libs.rc
+- this **_used_** to setup my shell environment when I need to _rebuild the thirdparty libraries_ for HTML5 (**from the OSX or Linux commandline**)
+	- currently, I now use `source .../emsdk/emsdk_set_env.sh`
+- **_now_**, this file has notes reminding me of the changes needed to the emscripten toolchain for UE4 purposes
+	- ~please see the file if you're curious (especially the "**upgrading emsdk - REMEMBER TO DO THE FOLLOWING**" section)~
+		- no longer needed - these are now [patched](README.1.emscripten.UE4.HTML5.md#patching-emscripten) in automatically
+
+
+#### Engine/Platforms/HTML5/Build/BatchFiles/Build_All_HTML5_libs.sh
+- after pulling down a new version of emscripten, we **have to rebuild** the (UE4's) thirdparty libs used with HTML5
+	- i.e. **new toolchain --> new binaries**
+- this shell script spells out which libs need to be rebuilt for HTML5
+- scan the additional scripts called from this file for more details
+	- every now and then, the Makefiles, CMake files, or something needs to change
 		(new compiler warnings, depricated features, compiler/toolchain support level, etc.)
-		- I like to build the thirdparty libs **one at a time** and even **one optimization level** at a time
-		- YMMV, play with the (sh) scripts -- it's spelled out like a normal cookbook set of CLI instructions
-	- **this(these) script(s) DOES NOT NEED to know about UE4's build environment**
-	- that said, **it is recommended to build the thirdparty libs from OSX or Linux** (see the companion
-	file **Build_All_HTML5_libs.rc** -- just mentioned above -- under the **WINDOWS NOTES** section for details on why)
+	- I like to build the thirdparty libs **one at a time** and even **one optimization level** at a time
+	- YMMV, play with the (sh) scripts -- it's spelled out like a normal cookbook set of CLI instructions
+- **this(these) script(s) DOES NOT NEED to know about UE4's build environment**
+- ~that said, **it is recommended to build the thirdparty libs from OSX or Linux** (see the companion
+	file **Build_All_HTML5_libs.rc** -- just mentioned above -- under the **WINDOWS NOTES** section for details on why)~
+	- no longer needed - everything is now powered by CMake
 
 - when these errors happen, you will need to hunt them down
 	- all of the CMake files used here are found in `Engine/Platforms/HTML5/Build/BatchFiles/ThirdParty/...`
 	- editing `Engine/Platforms/HTML5/Build/BatchFiles/Build_All_HTML5_libs.sh` and
 		commenting out all libs except for the troubled one will be of help
 
-
-
-
-- **Engine/Intermediate/Build/HTML5/EmscriptenCache**
-	- every time you upgrade/change your toolchain version (or switch between them or make a local modification
-	to **.../emsdk/emscripten/<version>/system/...** you will need to delete the respective *.bc file or the
-	whole folder to ensure your changes are recompiled
-	- NOTE: after doing this (changing toolchain versions) -- be sure to update your **HTML5SDKInfo.cs**
-	version numbers (see next section for details)
-
-- before the final copy to the **archive** folder (you've selected above), they are staged at:
-	- **.../Engine/Binaries/HTML5/**
-	- do not edit anything here, they will be stompped on after every packaging
-	- i.e. treat this folder as READ ONLY
-
-
-- **emscripten ports**
-	- while a lot of the UE4 Thirdparty libs (used with HTML5 builds) are also available as escripten ports,
-	there are a number of custom UE4 changes that are required to make the engine functional for HTML5
-	- for now, we recommend using the UE4 versions until this is revisited in the future
-	- NOTE: when using ports, remember to "turn off" UE4's version
-		- e.g. if you wish to use emscripten's version of SDL2 -- you will need to disable UE4's version:
-			- edit: **.../Engine/Thirdparty/SDL2/SDL2.Build.cs**
-			- delete/comment out the HTML5 section and save the file
-			- this change will be automatically picked up at packaging time

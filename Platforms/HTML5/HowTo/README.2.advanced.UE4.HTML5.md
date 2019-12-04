@@ -75,9 +75,8 @@ ShooterGame is a fully fleshed out project that can host network games.
 finally, the HTML5 client will need to connect to a **listening host**.
 > NOTE: UE4 HTML5 will NEVER be able to "host" a game (it can join them, but never host).
 
-for the purpose of this demo, we are going to use the "desktop game client"
-(remember, this is called the [NoEditor](#ue4-multi-player-testing-with-html5)
-variant) to open a listening port to host a session.
+for the purpose of this demo, we are going to use the "desktop game client" to
+open a listening port to host a session.
 - the HTML5 client will connect to this to play a networked game
 
 
@@ -97,9 +96,9 @@ normally, all desktop and most console platforms will be using what is known as
 the Unreal Engine **IpNetwork** NetDriver for network communications.
 
 - this needs to be change to use the **WebSocketNetwok NetDriver** ([1](#netdriverdefinitions-1))
-- then need to add the **WebSocketNetworking.WebSocketNetDriver** ([2](#add-websocketnetdriver-settings-2))
+- add the **WebSocketNetworking.WebSocketNetDriver** ([2](#add-websocketnetdriver-settings-2))
 settings to the Engine
-- finally, will also need to **disable Packet Handler Components not supported with websocket** ([3](#disable-packethandlercomponents-3))
+- and finally, **disable Packet Handler Components not supported with websocket** ([3](#disable-packethandlercomponents-3))
 	- one such example is the **SteamAuthComponentModuleInterface**
 
 
@@ -183,7 +182,7 @@ find any **PacketHandlerComponents** sections, and disabling them by commenting 
 
 for example, in **ShooterGame/Config/Windows/WindowsEngine.ini** -- this should look like this:
 
-```bash
+```ini
 ;[PacketHandlerComponents]
 ;+Components=OnlineSubsystemSteam.SteamAuthComponentModuleInterface
 ```
@@ -280,5 +279,9 @@ LEFT OFF HERE
 LEFT OFF HERE
 
 * * *
+* * *
+
+Next, [Debugging UE4 HTML5](README.3.debugging.UE4.HTML5.md)
+
 * * *
 

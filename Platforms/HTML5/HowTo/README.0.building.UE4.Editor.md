@@ -180,7 +180,7 @@ after the visual studio solution is opened, i like to "manually rebuild" these s
 ## Run UE4Editor
 
 when the build completes, fire up the Editor:
-- note: i like to see the `stdout` prints -- to know that the Editor is still running
+- note: i like to see the `stdout` prints (to know that the Editor is still running)
 	- using `-log` parameter to view this
 
 ### on Windows
@@ -356,9 +356,9 @@ binary files that the Editor will load-in upon re-running it.
 
 ### Compile Sample C++ (cpp) "Editor" Files
 
-this is **an additional step** that needs to be done differently from the BluePrint only project.
+(this is **an additional step** that needs to be done differently from the BluePrint only project.)
 
-now, with the new C++ project created from the steps just above:
+with the new C++ project created from the steps just above:
 
 #### on Windows
 

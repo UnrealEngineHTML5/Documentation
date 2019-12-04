@@ -8,7 +8,7 @@ while most browsers have a pretty nice debugger for "web page" development -- it
 
 so, I mostly just print stuff to the console window for debugging.
 
-> TIP: build for your Desktop platform and as much as you can there.
+> TIP: build for your Desktop platform and debug as much as you can there.
 it will be so much easier than trying to do the same thing for HTML5.
 
 
@@ -16,8 +16,6 @@ it will be so much easier than trying to do the same thing for HTML5.
 ## How To Dump The Stack And Print From Cpp
 
 at the top of any UE4 cpp file -- put the following at the **end** of the `#includes`:
-
-- (*EM_ASM code*)
 ```cpp
 #ifdef __EMSCRIPTEN__
 #include <emscripten/emscripten.h>

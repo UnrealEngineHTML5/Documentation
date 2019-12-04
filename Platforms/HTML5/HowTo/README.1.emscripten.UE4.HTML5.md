@@ -223,6 +223,11 @@ python -m SimpleHTTPServer 8000
 		- for Firefox: in `about:config` set `javascript.options.shared_memory` preference to `true` to enable **SharedArrayBuffer**
 	- then try reloading the project in your browser
 	- you may need to restart your browser if you are still having problems
+	- finally, try shutting down "other" applications
+		- tests have shown that running to many apps in the background have lead to memory fragmentation,
+			which browsers will have a hard time getting the memory space needed to run
+		- shut down things like visual studio, the Editor, everything except your browser and
+			the "web server" -- tihs will all help you get the game running in the browser
 
 
 * * *
@@ -269,7 +274,7 @@ public class CPP_TPClientTarget : TargetRules
 	}
 }
 ```
-	> note the use of **Client** in this file
+> note the use of **Client** in this file
 
 
 - `CPP_TPServer.Target.cs`
@@ -286,7 +291,7 @@ public class CPP_TPServerTarget : TargetRules
 	}
 }
 ```
-	> note the use of **Server** in this file
+> note the use of **Server** in this file
 
 
 * * *
@@ -444,7 +449,7 @@ let's start the upgrade.
 - edit HTML5's `Setup.sh` file
 - look for the `EMVAR` variable (very near the top of the file)
 	- it is currently set to `1.39.0`
-	- let's change this to `1.39.2` (or `latest` if you're bleeding edge)
+	- let's change this to `1.39.4` (or `latest` if you're bleeding edge)
 - save the file and exit your text editor
 
 re-run the Setup.sh script using pretty much the same steps from
@@ -474,6 +479,10 @@ again, this may take an hour or so to complete.
 follow along this explaination by going opening a page to the
 [Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24-html5/Engine/Platforms/HTML5/Setup.sh)
 file.
+- again: if you see a `404 This is not the web page you are looking for` error
+	- Double check you are logged in to GitHub
+	- Double check you have [linked](https://www.epicgames.com/account/connected) your Epic Games and GitHub accounts
+
 
 #### UnrealBuildTool HTML5 Injection
 

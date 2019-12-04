@@ -1,20 +1,20 @@
-# Advanced Example of Building a UE4 HTML5
+# Advanced Example of Building a UE4 HTML5 Project
 
 this page will show you how to:
 
-- obtain a sample UE4 game project via the Epic Games Launcher
-- package it as a multiplayer project for HTML5
-- play a multiplayer game session with desktop server, desktop client and HTML5 client
+- [obtain a sample UE4 game project](#download-shootergame-sample-project) via the Epic Games Launcher
+- [configure multiplayer project to use websockets](#configuring-ue4-projects-with-websocket-networking)
+- [play a multiplayer game session with desktop server, desktop client and HTML5 client](#test-html5-with-desktop-shootergame-server)
 
 
 * * *
 ## Epic Games Launcher
 
-normally, developers (who do not have much or any programming experience) can
-download the **Epic Games Launcher** to get the Unreal Engine Editor and to
+normally, game developers (who do not have much or any programming experience)
+can download the **Epic Games Launcher** to get the Unreal Engine Editor and to
 start making games with it.
 
-you can also download a number of sample projects from the "Market Place" that's
+you can also download a number of sample projects from the "Learn" that's
 available via the **Launcher**.
 
 we will use one of Epic Games sample projects from the Launcher's **Learning**
@@ -42,11 +42,16 @@ to download the **ShooterGame** project:
 - goto the **Learn** tab
 - scroll down to the **Games** section
 - click on **ShooterGame** to view the project
+
+![](Images/launcher_shootergame.png)
+
 - click on Free
 - click on Create Project
 - pick the path to download the project to
 - select the engine version: 4.24
 - click on Create
+
+![](Images/launcher_location_create.png)
 
 
 * * *
@@ -58,35 +63,45 @@ other platforms.
 - it is much easier to debug or trying to diagnose any problems on the "Native Platform" first (i.e. the desktop)
 
 ShooterGame is a fully fleshed out project that can host network games.
-> Note: HTML5 will NEVER be able to host a game (it can join them, but never host).
 
-you need to connect the HTML5 client to a **listening host**:
 - usually, a server is used to host these game sessions
-	- Unreal Engine can make these and are known as "UE4 Dedicated Servers"
-- for the purpose of this demo, we are going to use the "game client" to open a listening port to host a session
-	- and the HTML5 client will connect to this to play a networked game
+	- Unreal Engine make these and are known as "UE4 Dedicated Servers"
+	- an example of this was done in the previous HowTo: [UE4 Multi-player Testing With HTML5](README.1.emscripten.UE4.HTML5.md#ue4-multi-player-testing-with-html5)
+
+- another way to host game sessions is to have the running application open a
+	listening port and perform the same functionality as a Dedicated Server
+	- we will be doing an example of this here
+
+finally, the HTML5 client will need to connect to a **listening host**.
+> NOTE: UE4 HTML5 will NEVER be able to "host" a game (it can join them, but never host).
+
+for the purpose of this demo, we are going to use the "desktop game client"
+(remember, this is called the [NoEditor](#ue4-multi-player-testing-with-html5)
+variant) to open a listening port to host a session.
+- the HTML5 client will connect to this to play a networked game
 
 
 ### Configuring UE4 Projects with WebSocket Networking
 
+in the 
+example which basically demonstrated networking gameplay working out-of-the-box.
+
+it was also mentioned there that a clone of a special branch based on Release-4.24
+was made with the HTML5 platform files already populated.  this includes **config.ini**
+files.
+
+in this HowTo, we will go through the steps to make UE4 networking projects work
+on the HTML5 platform in detail.
+
 normally, all desktop and most console platforms will be using what is known as
-the Unreal Engine IpNetwork NetDriver for network communications.
+the Unreal Engine **IpNetwork** NetDriver for network communications.
 
-to make UE4 projects work on the HTML5 platform, we need to (1) change UE4 to
-use the **WebSocketNetwok NetDriver**
+- this needs to be change to use the **WebSocketNetwok NetDriver** ([1](#netdriverdefinitions-1))
+- then need to add the **WebSocketNetworking.WebSocketNetDriver** ([2](#add-websocketnetdriver-settings-2))
+settings to the Engine
+- finally, will also need to **disable Packet Handler Components not supported with websocket** ([3](#disable-packethandlercomponents-3))
+	- one such example is the **SteamAuthComponentModuleInterface**
 
-we will then need to (2) add the **WebSocketNetworking.WebSocketNetDriver** settings
-to the Engine.
-
-finally, we will also need to (3) **disable Packet Handler Components not supported with websocket**.
-- one such example is the **SteamAuthComponentModuleInterface**
-
-
-> again, as mentioned in [Starting with UE4 Editor](README.0.building.UE4.Editor.md),
-a clone of a special branch based on Release-4.24 was made with the HTML5 platform
-files already populated.  this includes **config.ini** files.  **BUT** the sample
-project **ShooterGame** will contain configurations that will **NEED** to be manually
-edited.
 
 we will now go over each of these (1-3) steps one by one.
 
@@ -105,14 +120,14 @@ in the following files:
 
 in **BaseEngine.ini**, it would look like this:
 
-```bash
+```ini
 ;NetDriverDefinitions=(DefName="GameNetDriver",DriverClassName="/Script/OnlineSubsystemUtils.IpNetDriver",DriverClassNameFallback="/Script/OnlineSubsystemUtils.IpNetDriver")
 ;+NetDriverDefinitions=(DefName="DemoNetDriver",DriverClassName="/Script/Engine.DemoNetDriver",DriverClassNameFallback="/Script/Engine.DemoNetDriver")
 ```
 
 next, **add** the WebSocket NetDriver - like this:
 
-```bash
+```ini
 ;NetDriverDefinitions=(DefName="GameNetDriver",DriverClassName="/Script/OnlineSubsystemUtils.IpNetDriver",DriverClassNameFallback="/Script/OnlineSubsystemUtils.IpNetDriver")
 ;+NetDriverDefinitions=(DefName="DemoNetDriver",DriverClassName="/Script/Engine.DemoNetDriver",DriverClassNameFallback="/Script/Engine.DemoNetDriver")
 NetDriverDefinitions=(DefName="GameNetDriver",DriverClassName="/Script/WebSocketNetworking.WebSocketNetDriver",DriverClassNameFallback="/Script/WebSocketNetworking.WebSocketNetDriver")
@@ -132,7 +147,7 @@ will **NEED TO BE EDITED** with these changes mentioned above.
 at the end of **BaseEngine.ini** (and only this file), add the
 **WebSocketNetworking.WebSocketNetDriver** settings at the end of the file:
 
-```bash
+```ini
 [/Script/WebSocketNetworking.WebSocketNetDriver]
 AllowPeerConnections=False
 AllowPeerVoice=False
@@ -186,8 +201,7 @@ using the same steps outlined in [Build Sample Project](README.0.building.UE4.Ed
 
 set the build type:
 - Menu bar -> File -> **Package Project** -> Build Configuration
-	- select **Development** for BugHunting =)
-	- otherwise, select **Shipping** when deploying for release
+	- select `Development` (i.e. keep the build type the same for all platforms)
 
 finally, package for your desktop
 - Menu bar -> File -> Package Project -> **Windows/Mac/Linux** (etc.)
@@ -200,8 +214,7 @@ using the same steps outlined in [Build Sample Project](README.0.building.UE4.Ed
 
 set the build type:
 - Menu bar -> File -> **Package Project** -> Build Configuration
-	- select **Development** for BugHunting =)
-	- otherwise, select **Shipping** when deploying for release
+	- select `Development` (i.e. keep the build type the same for all platforms)
 
 finally, package for HTML4
 - Menu bar -> File -> Package Project -> **HTML5**
@@ -214,8 +227,8 @@ finally, package for HTML4
 here, we will be using the more advanced way to run the project from the command line.
 
 to run multiple instances of the project at once (this networking project is a
-perfect example).  so this time, we will launch the game in `windowed` mode from
-the command line.
+perfect example), this time we will launch the game in `windowed` mode from the
+command line.
 
 - run the game in a windowed size screen (i.e. not full screen)
 	- using `-windowed -resx=800 -resy=600` parameter to do this
@@ -253,6 +266,9 @@ the command line.
 
 for the purpose of this demo, open another client in windowed mode.
 - in the first game window, select 
+
+TODO: FINISH ME
+
 
 * * *
 ### Test HTML5 with Desktop ShooterGame Server

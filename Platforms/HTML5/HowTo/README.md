@@ -19,7 +19,7 @@ The following are detailed instructions for packaging HTML5 projects with Unreal
 	- Package The Project For HTML5
 	- Test The HTML5 Packaged Project
 
-- [Advanced Example of Building a UE4 HTML5](README.2.advanced.UE4.HTML5.md)
+- [Advanced Example of Building a UE4 HTML5 Project](README.2.advanced.UE4.HTML5.md)
 	- Package a Multiplayer Project For HTML5
 
 - [Debugging UE4 HTML5](README.3.debugging.UE4.HTML5.md)

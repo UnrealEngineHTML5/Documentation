@@ -51,6 +51,16 @@ help page after clicking on **Menu Bar -> File -> Package Project -> HTML5**
 
 * * *
 * * *
+### i already have UnrealEngine, how do i get the HTML5 platform extension
+
+```bash
+get fetch https://github.com/UnrealEngineHTML5/UnrealEngine 4.24-html5
+git checkout 4.24-html5
+```
+
+
+* * *
+* * *
 ### trying to get latest Unreal Engine working with HTML5 platform extensions
 
 ##### i.e. putting HTML5 platform files back in with latest Unreal Engine.

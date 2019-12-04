@@ -18,7 +18,7 @@ back in [Get Source File](README.0.building.UE4.Editor.md#get-source-files), a c
 special branch based on Release-4.24 was used (which was put in (e.g.) `.../ue4-r424-html5`
 and will be used in this HowTo page) -- with the HTML5 platform files already populated.
 
-- NOTE: this is the last snapshot for HTML5 that is now "officially depricated" from UE4
+- NOTE: this is the last snapshot for HTML5 that is now "no longer supported" by Epic Games
 	- HTML5 has been moved (out) as a `Platform Extension` to be community-driven at this point
 	- but, work as gone in to help provide a working "staring point"
 		(especially as the last **ES2** (WebGL1) render target) for this new (platform extensions) mechanism
@@ -52,8 +52,11 @@ to get the UE4 Editor able to package for HTML5.
 - NOTE: this only needs to be done **once** (per local repo)
 
 all of these steps are all gathered in the (e.g.) `.../ue4-r424-html5/Engine/Platforms/HTML5/Setup.sh`
-build scripts (not to be confused with the [Engine's Setup](README.0.building.UE4.Editor.md#a-note-on-engine-setupbat-setupcommand-and-setupsh)
-script (i.e.) `.../ue4-r424-html5/Setup.sh`).  let go over each of those steps now.
+build scripts.
+
+> (not to be confused with the [Engine's Setup](README.0.building.UE4.Editor.md#a-note-on-engine-setupbat-setupcommand-and-setupsh)
+script (i.e.) `.../ue4-r424-html5/Setup.sh`)
+
 
 ### on Windows
 
@@ -67,7 +70,7 @@ open `git-bash`
 
 ### on Mac and Linux
 
-open the Terminal 
+open the Terminal
 
 - change directory to the location where UE4 was cloned to (as we have seen
 	in the [Generate Project/Make Files](README.0.building.UE4.Editor.md#generate-projectmake-files) section)
@@ -154,8 +157,7 @@ let's go over this part [again](README.0.building.UE4.Editor.md#window-2) now th
 
 set the build type:
 - Menu bar -> File -> **Package Project** -> Build Configuration
-	- select **Development** for BugHunting =)
-	- otherwise, select **Shipping** when deploying for release
+	- select `Development` (we are going to use the **game console** to **open a connection** to the game server below)
 
 finally, package for HTML5:
 - Menu bar -> File -> Package Project -> **HTML5**
@@ -176,14 +178,14 @@ to see if there are any common issues that you might be hitting.
 ### on Windows via File Explorer
 
 - open `File Explorer` to the location where files were **archived** to
-	- e.g. `D:\Build\BP_FP\HTML5`
+	- e.g. `D:\Builds\BP_FP\HTML5`
 	- double click on `HTML5LaunchHelper.exe`
 
 
 ### on Mac via Finder
 
 - open `Finder` to the location where files were **archived** to
-	- e.g. `/ue4/Build/BP_FP/HTML5`
+	- e.g. `/ue4/Builds/BP_FP/HTML5`
 	- double click on `HTML5LaunchHelper.command`
 
 
@@ -195,14 +197,16 @@ use python's built in web server to host the files quick and easy.
 #### on Windows
 
 ```bash
-cd /D/Build/BP_FP/HTML5
+# remember, this is an "example" path (see "archive to" notes just above)
+cd /D/Builds/BP_FP/HTML5
 python -m SimpleHTTPServer 8000
 ```
 
 #### on Mac or Linux
 
 ```bash
-cd /ue4/Build/BP_FP/HTML5
+# remember, this is an "example" path (see "archive to" notes just above)
+cd /ue4/Builds/BP_FP/HTML5
 python -m SimpleHTTPServer 8000
 ```
 
@@ -230,11 +234,65 @@ the [UnrealFrontEnd](README.0.building.UE4.Editor.md#project-launcher-interface)
 or UFE for short.
 - we will use this to create a (Desktop) Server, Desktop Client and HTML5 Client
 - again, because we are using a special branch here, much of the heavy work has already been done
-- a more indepth HowTo on how this is done will be explained in the next HowTo:
-	[Advanced Example of Building a UE4 HTML5](README.2.advanced.UE4.HTML5.md)
+	- an indepth "what was done" will be explained in the next HowTo:
+		[Advanced Example of Building a UE4 HTML5 Project](README.2.advanced.UE4.HTML5.md)
+	- however, we still need to add some code to the generated template (c++) project.
+		> note: while it is possible to do the same for generated blueprint project, there
+		are a number of additional steps required that are beyond the scope of this doc.
+		see this [XXX F.A.Q.]() if you are interested in knowing how.
 
-let us start with creating a `Custom Launch Profile` in the UFE to demonstrate
-creating a multi-player system.
+
+### Client and Server C# files
+
+let us add the additional required files to the project to allow us to create the
+server and client (desktop) executables.
+
+open your file explorer (windows), finder (mac) to the `CPP_TP/Source` folder.
+- make a copy of the `CPP_TP.Target.cs` twice and rename them:
+	- `CPP_TPClient.Target.cs`
+	- `CPP_TPServer.Target.cs`
+
+in each of those files a slight modification is needed to tell the build what targets
+are wanted.  here are both files in their entirety:
+
+- `CPP_TPClient.Target.cs`
+```cs
+using UnrealBuildTool;
+using System.Collections.Generic;
+public class CPP_TPClientTarget : TargetRules
+{
+	public CPP_TPClientTarget(TargetInfo Target) : base(Target)
+	{
+		Type = TargetType.Client;
+		DefaultBuildSettings = BuildSettingsVersion.V2;
+		ExtraModuleNames.Add("CPP_TP");
+	}
+}
+```
+	> note the use of **Client** in this file
+
+
+- `CPP_TPServer.Target.cs`
+```cs
+using UnrealBuildTool;
+using System.Collections.Generic;
+public class CPP_TPServerTarget : TargetRules
+{
+	public CPP_TPServerTarget(TargetInfo Target) : base(Target)
+	{
+		Type = TargetType.Server;
+		DefaultBuildSettings = BuildSettingsVersion.V2;
+		ExtraModuleNames.Add("CPP_TP");
+	}
+}
+```
+	> note the use of **Server** in this file
+
+
+* * *
+
+let us continue with creating a `Custom Launch Profile` in the UFE to demonstrate
+creating a multi-player project.
 
 run **UnrealFrontEnd**:
 
@@ -255,23 +313,32 @@ click on the **Custom Launch Profiles** `Add` (plus-button):
 
 ![](Images/frontend_profiles.png)
 
-to set up a multi-player test, we are going to build the desktop server and
+to set up a multi-player session, we are going to build the desktop server and
 desktop client (as our base line test system).  at the same time, we will also
 build the HTML5 client.
-- select **Project** to `BP_FP`
+- select **Project** to `CPP_TP`
 - select **Build Configuration**
-	- select `Development` or `Shipping`
+	- select `Development` (we are going to use the **game console** to **open a connection** to the game server below)
+	- but, you can select `Shipping` when deploying for release
 - select **Cook** to `By the book`
-- select **Cooked Plaforms** to:
-	- on Windows: `WindowsClient` and `WindowsServer`
-	- on Mac: `MacClient` and `MacServer`
-	- on Linux: `LinuxClient` and `LinuxServer`
-	- AND check box on for HTML5
+- select **Cooked Plaforms** for:
+	- on Windows: `WindowsNoEditor` and `WindowsServer`
+	- on Mac: `MacNoEditor` and `MacServer`
+	- on Linux: `LinuxNoEditor` and `LinuxServer`
+	- AND HTML5
+
+NOTE: the following are all essentially the same (for the respective platforms):
+- `Windows & WindowsNoEditor` and `WindowsClient`
+- `Mac & MacNoEditor` and `MacClient`
+- `Linux & LinuxNoEditor` and `LinuxClient`
+
+am using `NoEditor` here just as an example.
+
 - select **Package** to `Package & store locally`
 - in **Archive**, check the box `on`
 	- and set the archive path:
-		- e.g. on Windows: `D:\Builds\BP_FP\`
-		- e.g. on Mac or Linux: `/ue4/Builds/BP_FP/`
+		- e.g. on Windows: `D:\Builds\CPP_TP\`
+		- e.g. on Mac or Linux: `/ue4/Builds/CPP_TP/`
 - select **Deploy** to `Do not deploy`
 
 ![](Images/frontend_custom_profile.png)
@@ -336,7 +403,7 @@ folder, you should see something like this:
 	TODO: FINISH ME
 
 
-> again, we will do an [Advanced Example of Building a UE4 HTML5](README.2.advanced.UE4.HTML5.md)
+> again, we will do an [Advanced Example of Building a UE4 HTML5 Project](README.2.advanced.UE4.HTML5.md)
 multi-player example in the next HowTo.
 
 
@@ -404,33 +471,76 @@ again, this may take an hour or so to complete.
 
 ### HTML5's Setup.sh Deep Dive
 
+follow along this explaination by going opening a page to the
+[Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24-html5/Engine/Platforms/HTML5/Setup.sh)
+file.
+
 #### UnrealBuildTool HTML5 Injection
 
-	TODO: FINISH ME
+because HTML5 is (think of it as) a "new" platform, UnrealBuildTool (UBT) needs
+to be told about this.  This is done by injecting the HTML5 c# files into UBT.
+
+```c
+patch_UBT_HTML5()
+```
+
 
 #### Patching UE4 Code
 
-	TODO: FINISH ME
+Unreal Engine code is edited and checked in by Epic Games developers and
+is eventually propagated to the github repositories.  this was a tiny fix
+that didn't make the lock down window.
+
+see [this F.A.Q.](https://github.com/UnrealEngineHTML5/Documentation/Platforms/HTML5/HowTo/README.4.faq.UE4.HTML5.md#tobool63i--icmp-slt-i176)
+for details.
+
+```c
+patch_UE4_code()
+```
+
 
 #### Patching emscripten
 
-	TODO: FINISH ME
+changes to emscripten were necessary to keep Unreal Engine HTML5 developement
+stable and productive.  most of the edits were deemed specific to Unreal Engine
+(i.e. not fit for the general public).  sometimes, fixes are no longer needed
+and gets removed (or commented out for future reference).  but, some edits are
+brought to the attention of the toolchain maintainers and may get pushed.  and
+other times, we get them lost in the busy iterations only to be revisited at a
+later time.
+
+edits are wrapped between `EPIC EDIT` (to help me find these to re-apply them
+in future version).  these included things like:
+- verbose logging on timing data
+- changes from `warning` to `info` log types (reducing CI/CD false-positive alerts)
+- hacks to "fix" c# and python issues on windows
+- missing options
+
+```c
+patch_emscripten()
+```
+
+
+#### Fetch and Build
+
+this part was already described [above](#fetch-emsdk-and-build-thirdpary-libraries-for-html5)
 
 
 * * *
 ## Updating UE4 C# Scripts
 
-the following files are used by UE4 Editor when packagng for HTML5:
+the following files are used by Unreal's build system (specifically with the
+emscripten toolchain) when packaging for HTML5:
 
 ##### Engine/Platforms/HTML5/Source/Programs/UnrealBuildTool/HTML5SDKInfo.cs
 - the only things of interest here are the string variables listed at the top of the HTML5SDKInfo class
 	- `SDKVersion` -- for this demo, change this to `1.39.2` (or `latest` if bleeding edge)
 	- `NODE_VER`
-	- `PYTHON_VER`
+	- `PYTHON_VER` -- (used on windows only)
 
 
 ##### Engine/Platforms/HTML5/Source/Programs/UnrealBuildTool/HTML5ToolChain.cs
-- this is where everything is put (1) on setting up and (2) to run emscripten from UE4
+- this is where everything is put on (1) setting up and (2) run emscripten
 - THE functions that builds the emscripten command line options:
 	- `GetSharedArguments_Global()` - used in both compilation and linking
 	- `GetCLArguments_CPP()` - used in compilation only
@@ -483,6 +593,6 @@ in this example, do the exact same steps done above:
 * * *
 * * *
 
-Next, [Advanced Example of Building a UE4 HTML5](README.2.advanced.UE4.HTML5.md)
+Next, [Advanced Example of Building a UE4 HTML5 Project](README.2.advanced.UE4.HTML5.md)
 
 * * *

@@ -1,3 +1,14 @@
+# Note: this page has been archived
+
+And left here for reference purposes.
+
+The latest detailed instructions on packaging Unreal Engine for HTML5 are all
+placed in the [HowTo](../HowTo/README.md) section.
+
+
+* * *
+* * *
+
 # Developing HTML5 Projects
 
 Setting up UE4 for HTML5 development.
@@ -6,8 +17,6 @@ Setting up UE4 for HTML5 development.
 ## HTML5 SDK Setup
 
 The Unreal Engine 4 (UE4) HTML5 implementation utilizes the [Emscripten](https://github.com/emscripten-core/emscripten) toolchain (originally from [Mozilla](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Emscripten)) to cross-compile UE4's C++ code into WebAssembly (WASM).  The Community-supported HTML5 platform extension will require this and addtional tools to be manually downloaded, installed and setup before being able to create HTML5 projects.
-
-Detailed instructions on how to do this are all placed in the [HowTo](../HowTo/README.md) section.
 
 
 * * *

@@ -58,7 +58,6 @@ git clone -b 4.24-html5 --single-branch https://github.com/UnrealEngineHTML5/Unr
 
 remember, HTML5 is no longer an officially supported platform at Epic Games -- hence the `UnrealEngineHTML5` github account.
 
-
 * * *
 ## Generate Project/Make Files
 
@@ -236,7 +235,10 @@ after opening UE4Editor (from [Run UE4Editor](#run-ue4editor) above):
 	
 	- finally, click **Create Project** button
 
+		![](Images/create_BP_FP.apng)
 
+
+* * *
 ### Readying UE4Editor
 
 when the Editor restarts, I like to have the following windows opened:
@@ -255,18 +257,20 @@ when the Editor restarts, I like to have the following windows opened:
 - Menu bar -> Edit -> Project Settings ...
 
 	![](Images/editor_project_settings.jpg)
+
 	- click around (and look around) the **Project Settings** categories and options for EVERYTHING (including the kitchen sink)
 		- nothing needs to be changed here for now
 		- just be aware this is where a lot of customization settings are found
 
 
+* * *
 ### Build the Sample BluePrint Project
 
 set the build type:
 
 - Menu bar -> File -> **Package Project** -> Build Configuration
-	- select **Development** for BugHunting =)
-	- otherwise, select **Shipping** when deploying for release
+	- select `Development` (we are going to use the **game console** to **exit** the game below)
+	- but, you can select `Shipping` when deploying for release
 
 		![](Images/editor_build_configuration.jpg)
 
@@ -386,15 +390,15 @@ make CPP_TP CPP_TPEditor
 restart the Editor with the project name appended
 - note the use of `CPP_TP` here
 
-#### on Windows
+##### on Windows
 
 	...\Engine\Binaries\Win64\UE4Editor.exe CPP_TP -log
 
-#### on Mac
+##### on Mac
 
 	.../Engine/Binaries/Mac/UE4Editor CPP_TP -log
 
-#### on Linux
+##### on Linux
 
 	.../Engine/Binaries/Linux/UE4Editor CPP_TP -log
 
@@ -402,14 +406,33 @@ restart the Editor with the project name appended
 > TIP: put the command in a shortcut (or alias, script, etc.)
 
 
+#### Plugins
+
+for this example, to get you familiar with the **Plugins** features - open the
+**Plugins** window and let's enable one item (that will be used in the next 2 HowTo's).
+- Menu bar -> Edit -> Plugins ...
+
+when the **Plugins** window open, in the `Search` box type **websocket**,
+or you can find it in:
+
+- Built-in -> Misc
+	- **Experimental WebSocket Networking Plugin**
+
+ensure that it is enabled (if the Editor asks you to restart, do so).
+
+![](Images/editor_plugins_websocket.png)
+
+
 #### BEFORE:
 
-we used the steps in [BluePrint example](#build-the-sample-blueprint-project)
+Back in the Editor, we used the steps in [BluePrint example](#build-the-sample-blueprint-project)
 to package from the Editor.
 
 but now, let's try and use the other packaging tools available with Unreal Engine:
 - **Project Launcher** and
 - **UnrealFrontend** (think of this as a smaller version of `Editor` that **ONLY** does **packaging**)
+	> NOTE: you should build from Editor **at least once** before using UnrealFrontend.
+	the Editor will [setup configurations](#window-2) that are not done outside of Editor.
 
 
 #### Project Launcher
@@ -448,16 +471,16 @@ to run **UnrealFrontEnd**:
 ![](Images/frontend_project_launcher.png)
 
 here, we've:
-- set the **Project** to `CPP_TP` (upper left)
-- enabled the `Advanced` button (upper right)
-- set **Data Build** (which is the cooking type) to `By the book`
+- set the **Project** to `CPP_TP` (1)
+- enabled the `Advanced` button (2)
+- set **Data Build** (which is the cooking type) to `By the book` (3)
 
-to build the desktop game:
+to build the desktop game (4):
 - on Windows, you will see `WindowsNoEditor`
 - on Mac, you will see `MacNoEditor`
 - on Linux, you will see `LinuxNoEditor`
 
-click on the `Launch` button.
+click on the `Launch` button (5).
 
 note: this will automatically run the game.  remember to exit the game by:
 - press `~` key
@@ -473,7 +496,7 @@ next HowTo page.
 
 #### The Editor's Launcher
 
-there is (yet) one more way to test your project.  artists and designers generally
+there is (yet) another way to test your project.  artists and designers generally
 like to use this option when testing their work.
 
 - from the Editor's **Main Tool Bar**
@@ -499,6 +522,7 @@ this will basically go through the same motion as **UnrealFrontEnd** did.
 then, there is PIE (play-in-editor) which is the fast of all iteration types -- but,
 these are usually better suited for level designers.
 
+![](Images/editor_play_in_editor_es2.jpg)
 
 * * *
 

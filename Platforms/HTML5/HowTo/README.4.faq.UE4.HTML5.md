@@ -2,54 +2,76 @@
 
 in this page, you can find information on:
 
+- Browsers
+	- [multi-threading](#multi-threading)
+	- [integer overflow](#integer-overflow--script-error)
+	- [infinite spinning "Launching engine..."](#infinite-spinning-launching-engine)
+- Unreal Engine and HTML5
+	- [already have UnrealEngine, how to get HTML5 platform extension](#i-already-have-unrealengine-how-do-i-get-the-html5-platform-extension)
+	- [trying to get latest Unreal Engine working with HTML5 platform extensions](#trying-to-get-latest-unreal-engine-working-with-html5-platform-extensions)
+- Troubleshooting UE4 HTML5 builds
+	- [attempting to package for HTML5 instead brings up the help page](#attempting-to-package-for-html5-instead-brings-up-the-help-page)
+	- [bit packing brokeness](#bit-packing-brokeness)
+	- [common compiler issues when upgrading emscripten toolchain](#common-compiler-issues-when-upgrading-emscripten-toolchain)
 - Emscripten
 	- [links](#links)
 	- [custom edits to emsripten for Unreal Engine](#custom-edits-to-emsripten-for-unreal-engine)
-- Troubleshooting UE4 HTML5 builds
-	- [attempting to package for HTML5 instead brings up the help page](#attempting-to-package-for-html5-instead-brings-up-the-help-page)
-	- [trying to get latest Unreal Engine working with HTML5 platform extensions](#trying-to-get-latest-unreal-engine-working-with-html5-platform-extensions)
-	- [XXX bit packing brokeness]()
-- Unreal Engine HTML5 Files
-
-* * *
-* * *
-## Emsripten
-
-to learn more about what powers Unreal Engine for the web browsers, please see:
-
-### Links
-- https://github.com/emscripten-core/emsdk
-- https://github.com/emscripten-core/emscripten
-- https://emscripten.org/docs/building_from_source/toolchain_what_is_needed.html
-
-
-### custom edits to emscripten for Unreal Engine
-
-TODO: FINISH ME...
+- [Unreal Engine HTML5 Files](#unreal-engine-html5-files)
 
 
 * * *
 * * *
-## Troubleshooting UE4 HTML5 builds
+## Browsers
 
-the following are tips and suggestions to try out when your HTML5 builds goes wrong.
+### multi-threading
+
+- if you are having problems seeing the game run (**especially on the first time running this**)
+	- e.g. on firefox - `LinkError: shared memory is disabled`
+	- e.g. on chrome - `Assertion failed: requested a shared WebAssembly.Memory but the returned buffer is not a SharedArrayBuffer, indicating that while the browser has SharedArrayBuffer it does not have WebAssembly threads support - you may need to set a flag`
+
+- you will need to configure your browser to allow "multi-threading" support
+		- for Chrome: set `chrome://flags/#enable-webassembly-threads` as `WebAssembly threads support`
+		- for Firefox: in `about:config` set `javascript.options.shared_memory` preference to `true` to enable **SharedArrayBuffer**
+
+- then try reloading the project in your browser
+- you may need to restart your browser if you are still having problems
+
+
+### Integer Overflow / Script error
+
+open the `console.log` window for your browser (`Control+Shift+I` as in "eye")
+
+- if you see an error:
+	- e.g. on firefox - `error: RuntimeError: integer overflow`
+	- e.g. on chome - `Script error.`
+- or (on developement builds) you do **NOT** see `LogHTML5Launch: Display: Starting UE4 ...`
+
+these are usually indications of the browser not having enough resources to load page.
+
+- try shutting down "other" applications
+	- tests have shown that running to many apps in the background have lead to memory fragmentation,
+		which browsers will have a hard time getting the memory space needed to run
+	- shut down things like visual studio, the Editor, everything except your browser and
+		the "web server" -- this will all help you get the game running in the browser
+	- then, reload the project page on the browser
+
+
+if however, you see a lot of logs in the `console.log` window, then BUGHUNT the
+game code (logic/functions).  please see [Debugging UE4 HTML5](README.3.debugging.UE4.HTML5.md)
+for more details.
+
+
+### Infinite Spinning "Launching engine..."
+
+chances are, the game has crashed.  open the `console.log` window for your
+browser (`Control+Shift+I` as in "eye").  and if you see a pile of red errors,
+this should show you the crash stack.  begin the BUGHUNT!
 
 
 * * *
 * * *
-### attempting to package for HTML5 instead brings up the help page
+## Unreal Engine and HTML5
 
-if you are seeing the [XXX Developing HTML5 project](https://docs.unrealengine.com/en-us/Platforms/HTML5/GettingStarted)
-help page after clicking on **Menu Bar -> File -> Package Project -> HTML5**
-- chances are that there is a mismatched `emscripten toolchain version` value(s)
-	- this is normally seen when developers try to upgrade their emscripten toolchain and forget to update those values in `HTML5SDKInfo.cs`
-	- please see [Updating UE4 C# scripts](README.1.emscripten.UE4.HTML5.md#updating-ue4-c-scripts)
-		for more details on what to check for and how to fix this
-
-> note: do not forget to recompile all [ThirdParty libraries](README.1.emscripten.UE4.HTML5.md#fetch-emsdk-and-build-thirdpary-libraries-for-html5) with your changed toolchain versions.
-
-
-* * *
 * * *
 ### i already have UnrealEngine, how do i get the HTML5 platform extension
 
@@ -59,7 +81,6 @@ git checkout 4.24-html5
 ```
 
 
-* * *
 * * *
 ### trying to get latest Unreal Engine working with HTML5 platform extensions
 
@@ -113,7 +134,28 @@ and then finally, try to: [package a UE4 sample project for HTML5](README.1.emsc
 
 * * *
 * * *
-### tobool63.i = icmp slt i176
+## Troubleshooting UE4 HTML5 builds
+
+the following are tips and suggestions to try out when your HTML5 builds goes wrong.
+
+
+* * *
+### attempting to package for HTML5 instead brings up the help page
+
+if you are seeing the [XXX Developing HTML5 project](https://docs.unrealengine.com/en-us/Platforms/HTML5/GettingStarted)
+help page after clicking on **Menu Bar -> File -> Package Project -> HTML5**
+- chances are that there is a mismatched `emscripten toolchain version` value(s)
+	- this is normally seen when developers try to upgrade their emscripten toolchain and forget to update those values in `HTML5SDKInfo.cs`
+	- please see [Updating UE4 C# scripts](README.1.emscripten.UE4.HTML5.md#updating-ue4-c-scripts)
+		for more details on what to check for and how to fix this
+
+> note: do not forget to recompile all [ThirdParty libraries](README.1.emscripten.UE4.HTML5.md#fetch-emsdk-and-build-thirdpary-libraries-for-html5) with your changed toolchain versions.
+
+
+* * *
+### bit packing brokeness
+
+#### tobool63.i = icmp slt i176
 
 TODO FINISH ME...
 
@@ -122,6 +164,32 @@ Engine/Binaries/HTML5$ llvm-dis-6.0 UE4Game.bc
 Engine/Binaries/HTML5/w$ egrep -B 1000 -A 20 "tobool63.i = icmp slt i176" ../UE4Game.ll > z1.txt
 Engine/Source/Runtime/Engine/Classes/Engine$ cat Scene.h.save | perl -0p -e "s/uint\d+\s+(.+)\s?:\s?1;/bool \1;/g" > Scene.h
 ```
+
+#### PLATFORM_USE_SHOWFLAGS_ALWAYS_BITFIELD
+
+TODO FINISH ME
+
+
+### Common Compiler Issues When Upgrading Emscripten Toolchain
+
+TODO: FINISH ME...
+
+
+* * *
+* * *
+## Emsripten
+
+to learn more about what powers Unreal Engine for the web browsers, please see:
+
+### Links
+- https://github.com/emscripten-core/emsdk
+- https://github.com/emscripten-core/emscripten
+- https://emscripten.org/docs/building_from_source/toolchain_what_is_needed.html
+
+
+### Custom Edits to Emscripten for Unreal Engine
+
+TODO: FINISH ME...
 
 
 * * * 

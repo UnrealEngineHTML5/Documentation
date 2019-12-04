@@ -94,7 +94,7 @@ this will take a while to complete (again, this is only a **one-time** setup):
 	> emscripten will also get **patched** that have been found to be needed with building for UE4
 	(more about this in the [upgrading emscripten](#upgrading-emscripten-toolchain) section below)
 - finally, building the thirdparty libraries will take an hour or two
-	> please see the FAQ about why [XXX emscripten ports]() is not used in UE4
+	> please see the FAQ about why [emscripten ports](README.4.faq.UE4.HTML5.md#emscripten-ports) is not used in UE4
 
 
 * * *
@@ -144,7 +144,8 @@ let's go over this part [again](README.0.building.UE4.Editor.md#window-2) now th
 		- Engine -> Rendering
 			- Mobile
 				- note: the HTML5 render path uses the same one writen for mobile, that's why it's good to check-in here every now and then
-					- again, it is currently set to use ES2 (WebGL1) -- but, 4.25 will drop support for ES2 (see [XXX FAQ]() for more info on this)
+					- again, it is currently set to use ES2 (WebGL1) -- but, note that 4.25 will
+						[drop support for ES2](README.4.faq.UE4.HTML5.md#warning-this-is-not-for-the-faint-of-heart)
 				- see [Content Development](../HTML5.md#content-development) and
 					[Mobile MSAA](../GettingStarted/HTML5GettingStarted.md#html5-required-project-setup)
 					just in case you are see rendering issues on your projects
@@ -217,17 +218,7 @@ python -m SimpleHTTPServer 8000
 - open browser to http://localhost:8000/
 	- click on the relevant HTML file ( e.g. http://localhost:8000/BP_FP.html )
 
-- if you are having problems seeing the game run (**especially on the first time running this**)
-	- you may need to configure your browser to allow "multi-threading" support
-		- for Chrome: set `chrome://flags/#enable-webassembly-threads` as `WebAssembly threads support`
-		- for Firefox: in `about:config` set `javascript.options.shared_memory` preference to `true` to enable **SharedArrayBuffer**
-	- then try reloading the project in your browser
-	- you may need to restart your browser if you are still having problems
-	- finally, try shutting down "other" applications
-		- tests have shown that running to many apps in the background have lead to memory fragmentation,
-			which browsers will have a hard time getting the memory space needed to run
-		- shut down things like visual studio, the Editor, everything except your browser and
-			the "web server" -- tihs will all help you get the game running in the browser
+common run time in browser problems have been put into the [Browser F.A.Q.](README.4.faq.UE4.HTML5.md#browser)
 
 
 * * *
@@ -244,7 +235,7 @@ or UFE for short.
 	- however, we still need to add some code to the generated template (c++) project.
 		> note: while it is possible to do the same for generated blueprint project, there
 		are a number of additional steps required that are beyond the scope of this doc.
-		see this [XXX F.A.Q.]() if you are interested in knowing how.
+		see [xxx this F.A.Q.](README.4.faq.UE4.HTML5.md#xxx) if you are interested in knowing how.
 
 
 ### Client and Server C# files
@@ -471,7 +462,7 @@ again, this may take an hour or so to complete.
 	- others due to deprecated compiler options
 	- and so on
 
-- take a look at the [XXX FAQ](README.4.faq.UE4.HTML5.md) to see tips on how to fix this
+- take a look at [this FAQ](README.4.faq.UE4.HTML5.md#common-compiler-issues-when-upgrading-emscripten-toolchain) to see tips on how to fix this
 
 
 ### HTML5's Setup.sh Deep Dive
@@ -557,7 +548,8 @@ emscripten toolchain) when packaging for HTML5:
 
 > this file will sometimes need updating (e.g. new or deprecated compiler options)
 
-> again, take a look at the [XXX FAQ](README.4.faq.UE4.HTML5.md) to see if there are any common issues that you might be hitting
+> again, take a look at [this FAQ](README.4.faq.UE4.HTML5.md#common-compiler-issues-when-upgrading-emscripten-toolchain)
+	to see if there are any common issues that you might be hitting
 
 
 ##### Engine/Platforms/HTML5/Source/Programs/AutomationTool/HTML5Platform.Automation.cs

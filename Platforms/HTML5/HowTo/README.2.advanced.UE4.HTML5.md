@@ -5,6 +5,8 @@ this page will show you how to:
 - [obtain a sample UE4 game project](#download-shootergame-sample-project) via the Epic Games Launcher
 - [configure multiplayer project to use websockets](#configuring-ue4-projects-with-websocket-networking)
 - [play a multiplayer game session with desktop server, desktop client and HTML5 client](#test-html5-with-desktop-shootergame-server)
+- [smash texture sizes]()
+- [view modes in editor]()
 
 
 * * *
@@ -272,11 +274,24 @@ TODO: FINISH ME
 * * *
 ### Test HTML5 with Desktop ShooterGame Server
 
-LEFT OFF HERE
+TODO: FINISH ME
 
-LEFT OFF HERE
 
-LEFT OFF HERE
+* * *
+## smash texture sizes
+
+TODO: FINISH ME
+
+![](Images/editor_device_profile.png)
+
+
+* * *
+## view modes in editor
+
+TODO: FINISH ME
+
+https://docs.unrealengine.com/en-US/Platforms/Mobile/Previewer/index.html
+
 
 * * *
 * * *

@@ -40,7 +40,6 @@ and, ensure you have the respective compiler tools for your desktop:
 
 - Mac
 	- [XCode 11](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
-	- TODO finish this list !!! "https://developer.apple.com/download/more/"
 
 - Linux
 	- build-essential
@@ -90,7 +89,7 @@ cd Engine/Platforms/HTML5
 cd -
 
 ./GenerateProjectFiles.bat
-# open the generated visual studio solution
+# open the generated visual studio solution (UE4.sln)
 ```
 
 
@@ -106,7 +105,7 @@ cd Engine/Platforms/HTML5
 cd -
 
 ./GenerateProjectFiles.command
-# open the generated xcode project
+# open the generated xcode project (UE4.xcworkspace)
 ```
 
 
@@ -155,7 +154,7 @@ after the visual studio solution is opened, i like to "manually rebuild" these s
 	- AutomationToolLauncher
 	- UnrealBuildTool
 	- UnrealHeaderTool
-	- HTML5LaunchHelper (ok to skip, am working on figuring out why this may be missing)
+	- HTML5LaunchHelper (ok to skip, am working on figuring out why this may be missing -- NOTE: on Mac and Linux, this is automatically built when HTML5 is packaged.)
 	- ShaderCompileWorker
 	- UnrealLightmass
 	- UnrealPak
@@ -168,7 +167,23 @@ after the visual studio solution is opened, i like to "manually rebuild" these s
 ### on Mac
 
 - open the XCode project and build the following (again, in this order):
-	- TODO finish this list !!!
+	- UnrealHeaderTool
+	- ShaderCompileWorker
+	- UnrealLightmass
+	- UnrealPak
+	- UnrealFileServer
+	- UnrealFrontend (i normally like to build this particular one **after** building UE4 -- next section below...)
+
+		![](Images/xc_project_targets.png)
+
+- select the target and then select:
+	- **Menu -> Product -> Build For -> Running**
+	- or `Command + Shift + R`
+
+	> see building [UE4 on Mac](#on-mac-2) below for screenshot example
+
+
+> NOTE: on Mac and Linux, HTML5LaunchHelper is automatically built when HTML5 is packaged
 
 
 ### on Linux
@@ -179,6 +194,7 @@ after the visual studio solution is opened, i like to "manually rebuild" these s
 	- this will all take a while to complete...
 		- goto Happy Hour
 
+> NOTE: on Mac and Linux, HTML5LaunchHelper is automatically built when HTML5 is packaged
 
 * * *
 ## Compiling UE4Editor
@@ -195,7 +211,16 @@ after the visual studio solution is opened, i like to "manually rebuild" these s
 
 ### on Mac
 
-- select UE4Editor, build !!! TODO find actual target name !!!
+- select `UE4`
+
+	![](Images/xc_ue4_target.png)
+
+- and then select:
+	- **Menu -> Product -> Build For -> Running**
+	- or `Command + Shift + R`
+
+		![](Images/xc_build_running.png)
+
 
 - this may take a while to complete (especially on the first build)
 	- goto Farmers Market Cafe
@@ -221,7 +246,8 @@ when the build completes, fire up the Editor:
 
 ### on Mac
 
-	.../Engine/Binaries/Mac/UE4Editor -log
+	open .../Engine/Binaries/Mac/UE4Editor.app --args -log
+
 
 ### on Linux
 
@@ -331,7 +357,7 @@ finally, package for your desktop:
 
 - open `Finder` to the location where files were **archived** to
 	- e.g. `/ue4/Builds/BP_FP/MacNoEditor`
-	- double click on `BP_FP`
+	- double click on `BP_FP.app`
 
 
 ### on Linux via File Manager
@@ -405,7 +431,6 @@ with the new C++ project created from the steps just above:
 #### on Mac
 
 - double click on `UE4.xcworkspace`
-- TODO find actual target name !!!
 
 #### on Linux
 
@@ -428,7 +453,7 @@ restart the Editor with the project name appended
 
 ##### on Mac
 
-	.../Engine/Binaries/Mac/UE4Editor CPP_TP -log
+	open .../Engine/Binaries/Mac/UE4Editor.app --args CPP_TP -log
 
 ##### on Linux
 
@@ -490,8 +515,7 @@ to run **UnrealFrontEnd**:
 
 ##### on Mac
 
-	.../Engine/Binaries/Mac/UnrealFrontend
-	TODO find actual target name !!!
+	open .../Engine/Binaries/Mac/UnrealFrontend.app
 
 ##### on Linux
 

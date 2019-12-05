@@ -116,7 +116,7 @@ restart the Editor with the project name appended:
 
 #### on Mac
 
-	.../Engine/Binaries/Mac/UE4Editor BP_FP -log
+	open .../Engine/Binaries/Mac/UE4Editor.app --args BP_FP -log
 
 #### on Linux
 
@@ -222,6 +222,34 @@ python -m SimpleHTTPServer 8000
 - open browser to http://localhost:8000/
 	- click on the relevant HTML file ( e.g. http://localhost:8000/BP_FP.html )
 
+
+in general -- use both chrome and firefox when testing.  they both will periodically
+"get broken" for some reason or another -- but, they usually get fixed in the next
+revision or two.
+
+i normally have these browsers installed on ALL of desktops (windows, mac and linux):
+- Chrome (stable)
+- Canary (chrome "unstable" i.e. alpha)
+- Firefox (stable)
+- Firefox Nightly ("unstable i.e. alpha)
+
+those browsers above are the best at testing UnrealEngine projects in them.
+
+
+#### Windows Warnings:
+
+- DO NOT USE EDGE: while it is now powered by chromium, it is not quite ready for webgl (yet).
+	- see [caniuse webgl](https://caniuse.com/#search=webgl) for details
+
+
+#### Mac Warnings:
+
+- DO NOT USE SAFARI: this browser is has horrid support for WebGL(2)
+	- see [caniuse webgl](https://caniuse.com/#search=webgl) for details
+
+
+### other issues:
+
 common run time in browser problems have been put into the [Browser F.A.Q.](README.4.faq.UE4.HTML5.md#browser)
 
 
@@ -302,8 +330,7 @@ run **UnrealFrontEnd**:
 
 ##### on Mac
 
-	.../Engine/Binaries/Mac/UnrealFrontend
-	TODO find actual target name !!!
+	open .../Engine/Binaries/Mac/UnrealFrontend.app
 
 ##### on Linux
 

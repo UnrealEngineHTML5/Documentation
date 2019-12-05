@@ -155,7 +155,7 @@ after the visual studio solution is opened, i like to "manually rebuild" these s
 	- AutomationToolLauncher
 	- UnrealBuildTool
 	- UnrealHeaderTool
-	- HTML5LaunchHelper
+	- HTML5LaunchHelper (ok to skip, am working on figuring out why this may be missing)
 	- ShaderCompileWorker
 	- UnrealLightmass
 	- UnrealPak

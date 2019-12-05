@@ -236,15 +236,17 @@ i normally have these browsers installed on ALL of desktops (windows, mac and li
 those browsers above are the best at testing UnrealEngine projects in them.
 
 
-#### Windows Warnings:
+#### Note: on Windows
 
-- DO NOT USE EDGE: while it is now powered by chromium, it is not quite ready for webgl (yet).
+- DO NOT USE EDGE
+	- while it is now powered by chromium, it is not quite ready for webgl (yet).
 	- see [caniuse webgl](https://caniuse.com/#search=webgl) for details
 
 
-#### Mac Warnings:
+#### Note: on Mac
 
-- DO NOT USE SAFARI: this browser is has horrid support for WebGL(2)
+- DO NOT USE SAFARI
+	- this browser has horrid support for WebGL(2)
 	- see [caniuse webgl](https://caniuse.com/#search=webgl) for details
 
 

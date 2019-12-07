@@ -390,11 +390,14 @@ and using almost the same steps from [chrome or firefox](#chrome-or-firefox-64-b
 	- click on the relevant HTML file ( e.g. http://localhost:8000/ShooterGame.html )
 
 - join the desktop match:
-	- in **MAIN MENU -> JOIN** (may have to click on **JOIN** twice)
-		- click on **SERVER**
-		- wait for your server to show up in the list, and then double click on it
+	- NOTE: due to the way **ShooterGame** was designed, the **JOIN** mechanism will NOT WORK with the browser
+	- SO, we are going to use the `game console` command line we've seen in
+		[testing muti-player on HTML5](README.1.emscripten.UE4.HTML5.md#finally)
+		in the last HowTo
+	- open the `game console` command line, by pressing the **tilda** key (`~`)
+		- type: `open 127.0.0.1`
 
-TODO: FINISH ME... (screenshot)
+you should see something like this:
 
 ![](Images/shootergame_match.png)
 

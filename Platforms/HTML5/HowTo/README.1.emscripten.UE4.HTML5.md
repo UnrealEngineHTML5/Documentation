@@ -143,6 +143,8 @@ let's go over this part [again](README.0.building.UE4.Editor.md#window-2) now th
 					(by not having to build this additional step) -- emscripten has it's own assets bundler
 					mechanism (see [Emscripten Packaging Files](https://emscripten.org/docs/porting/files/packaging_files.html)
 					for more information about this)
+				- if you're looking for compression: please see the [smash texture size](README.2.advanced.UE4.HTML5.md#smash-texture-sizes)
+					for the most effective way to crush your download size
 			- Project -> **Full Rebuild**
 				- just make a note this exists here
 		- Engine -> Rendering
@@ -223,9 +225,9 @@ python -m SimpleHTTPServer 8000
 	- click on the relevant HTML file ( e.g. http://localhost:8000/BP_FP.html )
 
 
-in general -- use both chrome and firefox when testing.  they both will periodically
-"get broken" for some reason or another -- but, they usually get fixed in the next
-revision or two.
+in general -- i use both chrome and firefox when testing.  note: they both will
+periodically "get broken" for some reason or another -- but, they usually get
+fixed in the next revision or two.
 
 i normally have these browsers installed on ALL of desktops (windows, mac and linux):
 - Chrome (stable)
@@ -233,7 +235,7 @@ i normally have these browsers installed on ALL of desktops (windows, mac and li
 - Firefox (stable)
 - Firefox Nightly ("unstable i.e. alpha)
 
-those browsers above are the best at testing UnrealEngine projects in them.
+those browsers above are the **BEST** at testing UnrealEngine projects in them.
 
 
 #### Note: on Windows
@@ -351,17 +353,17 @@ build the HTML5 client.
 	- but, you can select `Shipping` when deploying for release (just note: **game console** will NOT be available in `Shipping` builds)
 - select **Cook** to `By the book`
 - select **Cooked Plaforms** for:
-	- on Windows: `WindowsNoEditor` and `WindowsServer`
-	- on Mac: `MacNoEditor` and `MacServer`
-	- on Linux: `LinuxNoEditor` and `LinuxServer`
+	- on Windows: `WindowsClient` and `WindowsServer`
+	- on Mac: `MacClient` and `MacServer`
+	- on Linux: `LinuxClient` and `LinuxServer`
 	- AND HTML5
 
-NOTE: the following are all essentially the same (for the respective platforms):
+NOTE: the following "client" variants are all essentially the same (for the respective platforms):
 - `Windows & WindowsNoEditor` and `WindowsClient`
 - `Mac & MacNoEditor` and `MacClient`
 - `Linux & LinuxNoEditor` and `LinuxClient`
 
-am using `NoEditor` here just as an example.
+> in this example, if you clicked on ALL 3 of these "client" variants, the `Client` variant is ONLY built.
 
 - select **Package** to `Package & store locally`
 - in **Archive**, check the box `on`
@@ -387,49 +389,109 @@ to begin packaging everything.
 after the build is done (which may take a while to complete) in your **archive**
 folder, you should see something like this:
 
+![](Images/archive_cpp_tp.png)
+
+
 ### Launch the Server
 
-	TODO: FINISH ME
+here, we will be using the more advanced way to run the project from the command line.
 
-#### on Windows:
+- first, tell the server to host with the map: **ThirdPersonExampleMap**
 
-	TODO: FINISH ME
+- as before, i like to see the `stdout` prints -- to know that the game is still running
+	- using `-log` parameter to view this
 
-#### on Mac:
 
-	TODO: FINISH ME
+#### on Windows via CommandPrompt:
 
-#### on Linux:
+- open `CommandPrompt` to the location where the Server files were **archived** to
+	- e.g. `cd ...\CPP_TP\WindowsServer`
+- run executable
+	- `CPP_TPServer.exe ThirdPersonExampleMap -log`
 
-	TODO: FINISH ME
+#### on Mac via Terminal:
+
+- open `terminal` to the location where files were **archived** to
+	- e.g. `cd .../CPP_TP/MacServer`
+- run executable
+	- `open ./CPP_TPServer.app --args ThirdPersonExampleMap -log`
+
+#### on Linux via Terminal:
+
+- open `terminal` to the location where files were **archived** to
+	- e.g. `cd .../CPP_TP/LinuxServer`
+- run executable
+	- `./CPP_TPServer.sh ThirdPersonExampleMap -log`
+
+> TIP: put the command in a shortcut (or alias, script, etc.)
+
 
 ### Launch the Desktop Client
 
-	TODO: FINISH ME
+to run multiple instances of the project at once (this networking project is a
+perfect example), this time we will launch the game in `windowed` mode from the
 
-#### on Windows:
+- run the game in a windowed size screen (i.e. not full screen)
+	- using `-windowed -resx=800 -resy=600` parameter to do this
 
-	TODO: FINISH ME
+- again, i like to see the `stdout` prints -- to know that the game is still running
+	- using `-log` parameter to view this
 
-#### on Mac:
+#### on Windows via CommandPrompt:
 
-	TODO: FINISH ME
+- open `CommandPrompt` to the location where the Server files were **archived** to
+	- e.g. `cd ...\CPP_TP\Windowslient`
+- run executable
+	- `CPP_TPClient.exe -windowed -resx=800 -resy=600 -log`
 
-#### on Linux:
+#### on Mac via Terminal:
 
-	TODO: FINISH ME
+- open `terminal` to the location where files were **archived** to
+	- e.g. `cd .../CPP_TP/MacClient`
+- run executable
+	- `open ./CPP_TPClient.app --args -windowed -resx=800 -resy=600 -log`
+
+#### on Linux via Terminal:
+
+- open `terminal` to the location where files were **archived** to
+	- e.g. `cd .../CPP_TP/LinuxClient`
+- run executable
+	- `./CPP_TPClient.sh -windowed -resx=800 -resy=600 -log`
+
+> TIP: put the command in a shortcut (or alias, script, etc.)
+
 
 ### Launch the HTML5 Client
 
-	TODO: FINISH ME
+using almost the same steps from [test sample blueprint project for HTML5](#on-windows-mac-or-linux-via-command-line) above:
 
-#### on Windows:
+#### on Windows, Mac or Linux via command line
 
-	TODO: FINISH ME
+in `git-bash` (for windows) or in the `terminal` (for mac or linux), you can
+use python's built in web server to host the files quick and easy.
 
-#### on Mac and Linux:
+```bash
+# remember, this is an "example" path (see "archive to" notes just above)
+cd .../CPP_TP/HTML5
+python -m SimpleHTTPServer 8000
+```
 
-	TODO: FINISH ME
+and using almost the same steps from [chrome or firefox](#chrome-or-firefox-64-bit-version-recommended) above:
+
+- open browser to http://localhost:8000/
+	- click on the relevant HTML file ( e.g. http://localhost:8000/CPP_TP.html )
+
+
+### Finally...
+
+in the desktop client AND HTML5 browser:
+- open the `game console` command line, by pressing the **tilda** key (`~`)
+	- type: `open 127.0.0.1`
+		- here, we are telling the `client` to open a connection to the `server`
+			(hosted at 127.0.0.1 -- a.k.a. `localhost`)
+
+you should see the game reload, and as more clients join the server - the more
+players you will see in there!
 
 
 > again, we will do an [Advanced Example of Building a UE4 HTML5 Project](README.2.advanced.UE4.HTML5.md)

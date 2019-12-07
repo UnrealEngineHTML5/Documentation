@@ -76,7 +76,7 @@ this should show you the crash stack.  begin the BUGHUNT!
 ### i already have UnrealEngine, how do i get the HTML5 platform extension
 
 ```bash
-get fetch https://github.com/UnrealEngineHTML5/UnrealEngine 4.24-html5
+git fetch https://github.com/UnrealEngineHTML5/UnrealEngine 4.24-html5
 git checkout 4.24-html5
 ```
 

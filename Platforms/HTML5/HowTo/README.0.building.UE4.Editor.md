@@ -248,6 +248,11 @@ when the build completes, fire up the Editor:
 
 	open .../Engine/Binaries/Mac/UE4Editor.app --args -log
 
+- if you happen to see the `Epic Games Launcher` asking you to install it or
+	"running", go ahead and install it (copy to `Applications` folder) and then
+	finish up by closing it.
+	- we will revisit this in the [advanced example](README.2.advanced.UE4.HTML5.md#epic-games-launcher) HowTo
+	
 
 ### on Linux
 

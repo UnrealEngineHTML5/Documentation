@@ -4,7 +4,7 @@ this page will show you how to:
 
 - [obtain a sample UE4 game project](#download-shootergame-sample-project) via the Epic Games Launcher
 - [configure multiplayer project to use websockets](#configuring-ue4-projects-with-websocket-networking)
-- [play a multiplayer game session with desktop client host and HTML5 client](#test-html5-with-desktop-shootergame-host)
+- [play a multiplayer game session with desktop client host and HTML5 client](#test-html5-client-with-desktop-shootergame-host)
 - [smash texture sizes]()
 - [view modes in editor]()
 
@@ -50,10 +50,87 @@ to download the **ShooterGame** project:
 - click on Free
 - click on Create Project
 - pick the path to download the project to
+	- in this example, i have put ShooterGame in the same folder where **Engine**
+		is -- i.e. `.../ue4-r424-html5/ShooterGame`.  it doesn't have to be there.
+		but, for this demo, you can put it there to follow along these instructions.
 - select the engine version: 4.24
 - click on Create
 
 ![](Images/launcher_location_create.png)
+
+
+* * *
+## Build ShooterGame "Editor"
+
+when ever starting a new project that contains source codes, i usually run the
+`GenerateProjectFiles` command (that we saw in [Generate Project/Make Files](README.0.building.UE4.Editor.md#generate-projectmake-files)).
+
+this may have been done for you automatically when using the **Epic Games Launcher**.
+
+but, it's good practice to do this when ever you start playing playing with
+**new** projects that contain source codes.  and this example is a good one
+to start with.
+
+#### on Windows via CommandPrompt
+
+- open `CommandPrompt` to ue4-r424-html5
+	- e.g. `cd ...\ue4-r424-html5`
+- re-generate the visual studio solution file
+	- `GenerateProjectFiles.bat`
+- open the generated visual studio solution (UE4.sln)
+	- in **Solution Explorer-> Solution -> Games**, `right click select` and `build` **ShooterGame**
+
+#### on Mac via Terminal
+
+- open `terminal` to ue4-r424-html5
+	- e.g. `cd .../ue4-r424-html5`
+- re-generate the xcode project file
+	- `GenerateProjectFiles.command`
+- open the generated xcode project (UE4.xcworkspace)
+	- select target **ShooterGame**
+	- and then select:
+		- **Menu -> Product -> Build For -> Running**
+		- or `Command + Shift + R`
+
+#### on Linux via Terminal
+
+- open `terminal` to ue4-r424-html5
+	- e.g. `cd .../ue4-r424-html5`
+- re-generate the Makefiles
+	- `GenerateProjectFiles.sh`
+- and then:
+	- `make ShooterGame ShooterGameEditor`
+
+
+* * *
+## Open ShooterGame in UE4Editor
+
+when the build completes, fire up the Editor:
+- note: i like to see the `stdout` prints (to know that the Editor is still running)
+	- using `-log` parameter to view this
+
+### on Windows
+
+	...\Engine\Binaries\Win64\UE4Editor.exe ShooterGame -log
+
+### on Mac
+
+	open .../Engine/Binaries/Mac/UE4Editor.app --args ShooterGame -log
+
+### on Linux
+
+	.../Engine/Binaries/Linux/UE4Editor ShooterGame -log
+
+> TIP: put the command in a shortcut (or alias, script, etc.) for future use!
+
+
+* * *
+#### SPECIAL NOTE: Enable WebSocket Networking Plugin
+
+we saw how to do this back in the first HowTo:
+- [enable websocket networking plugin](README.0.building.UE4.Editor.md#plugins)
+
+![](Images/editor_plugins_websocket.png)
 
 
 * * *
@@ -70,8 +147,9 @@ ShooterGame is a fully fleshed out project that can host network games.
 	- Unreal Engine make these and are known as "UE4 Dedicated Servers"
 	- an example of this was done in the previous HowTo: [UE4 Multi-player Testing With HTML5](README.1.emscripten.UE4.HTML5.md#ue4-multi-player-testing-with-html5)
 
-- another way to host game sessions is to have the running application open a
-	listening port and perform the same functionality as a Dedicated Server
+- another way to host game sessions is to have the running application **open a
+	listening port** and perform the same functionality as a Dedicated Server
+	(many console games do this)
 	- we will be doing an example of this here
 
 finally, the HTML5 client will need to connect to a **listening host**.
@@ -84,12 +162,9 @@ open a listening port to host a session.
 
 ### Configuring UE4 Projects with WebSocket Networking
 
-in the 
-example which basically demonstrated networking gameplay working out-of-the-box.
-
-it was also mentioned there that a clone of a special branch based on Release-4.24
-was made with the HTML5 platform files already populated.  this includes **config.ini**
-files.
+in the previous previous HowTo, it was mentioned that the clone of a special
+branch based on Release-4.24 was made with the HTML5 platform files already
+populated.  this includes **config.ini** files.
 
 in this HowTo, we will go through the steps to make UE4 networking projects work
 on the HTML5 platform in detail.
@@ -100,7 +175,7 @@ the Unreal Engine **IpNetwork** NetDriver for network communications.
 - this needs to be change to use the **WebSocketNetwok NetDriver** ([1](#netdriverdefinitions-1))
 - add the **WebSocketNetworking.WebSocketNetDriver** ([2](#add-websocketnetdriver-settings-2))
 settings to the Engine
-- and finally, **disable Packet Handler Components not supported with websocket** ([3](#disable-packethandlercomponents-3))
+- and finally, **disable Packet Handler Components not supported with websocket** ([3](#disable-packethandler-components-3))
 	- one such example is the **SteamAuthComponentModuleInterface**
 
 
@@ -172,27 +247,29 @@ MaxPortCountToTry=512
 > again, this has been done for you if you're using the special branch
 
 
-#### Disable PacketHandlerComponents (3)
+#### Disable PacketHandler Components (3)
 
 in the following files:
 - Engine/Config/BaseEngine.ini
+	- note: as of this writting, this is **not** seen in BaseEngine.ini -- but,
+		it is mentioned here just in case you see this in the future...
 - ShooterGame/Config/Windows/WindowsEngine.ini
 - ShooterGame/Config/Mac/MacEngine.ini
 - ShooterGame/Config/Linux/LinuxEngine.ini
 
-find any **PacketHandlerComponents** sections, and disabling them by commenting them out.
+find any **PacketHandler** Components sections, and disabling them by commenting them out.
 
 for example, in **ShooterGame/Config/Windows/WindowsEngine.ini** -- this should look like this:
 
 ```ini
-;[PacketHandlerComponents]
+;[GameNetDriver PacketHandlerProfileConfig]
+;+Components=OnlineSubsystemSteam.SteamAuthComponentModuleInterface
+;
+;[PendingNetDriver PacketHandlerProfileConfig]
 ;+Components=OnlineSubsystemSteam.SteamAuthComponentModuleInterface
 ```
 
 > note the `;` (semicolon) at the start of the line indicating this line is disabled
-
-> UPDATE: as of this writting, this is **not** seen in BaseEngine.ini -- but,
-it is mentioned here just in case you see this in the future...
 
 
 * * *
@@ -211,13 +288,18 @@ finally, package for your desktop
 
 ### Package ShooterGame for HTML5
 
-using the same steps outlined in [Build Sample Project](README.0.building.UE4.Editor.md#build-sample-project)
+##### SPECIAL NOTE: enable the HTML5 as a supported platform
+
+![](Images/editor_supported_platforms_html5.png)
+
+
+now, using the same steps outlined in [Build Sample Project](README.0.building.UE4.Editor.md#build-sample-project)
 
 set the build type:
 - Menu bar -> File -> **Package Project** -> Build Configuration
 	- select `Development` (i.e. keep the build type the same for all platforms)
 
-finally, package for HTML4
+finally, package for HTML5
 - Menu bar -> File -> Package Project -> **HTML5**
 	- select the folder where the final files will be **archived** to
 
@@ -225,11 +307,8 @@ finally, package for HTML4
 * * *
 ### Test Desktop ShooterGame Client
 
-here, we will be using the more advanced way to run the project from the command line.
-
-to run multiple instances of the project at once (this networking project is a
-perfect example), this time we will launch the game in `windowed` mode from the
-command line.
+as we have seen in the previous HowTo's [multi-player testing](README.1.emscripten.UE4.HTML5.md#launch-the-desktop-client),
+we will run this project in `windowed` mode from the command line.
 
 - run the game in a windowed size screen (i.e. not full screen)
 	- using `-windowed -resx=800 -resy=600` parameter to do this
@@ -241,23 +320,23 @@ command line.
 #### on Windows via CommandPrompt
 
 - open `CommandPrompt` to the location where files were **archived** to
-	- e.g. `cd ...\BP_TP\WindowsNoEditor`
+	- e.g. `cd ...\ShooterGame\WindowsNoEditor`
 - run executable
-	- `BP_TP.exe -windowed -resx=800 -resy=600 -log`
+	- `ShooterGame.exe -windowed -resx=800 -resy=600 -log`
 
 #### on Mac via Terminal
 
 - open `terminal` to the location where files were **archived** to
-	- e.g. `cd .../BP_TP/MacNoEditor`
+	- e.g. `cd .../ShooterGame/MacNoEditor`
 - run executable
-	- `open ./BP_TP.app --args -windowed -resx=800 -resy=600 -log`
+	- `open ./ShooterGame.app --args -windowed -resx=800 -resy=600 -log`
 
 #### on Linux via Terminal
 
 - open `terminal` to the location where files were **archived** to
-	- e.g. `cd .../BP_TP/LinuxNoEditor`
+	- e.g. `cd .../ShooterGame/LinuxNoEditor`
 - run executable
-	- `./BP_TP.sh -windowed -resx=800 -resy=600 -log`
+	- `./ShooterGame.sh -windowed -resx=800 -resy=600 -log`
 
 
 > TIP: put the command in a shortcut (or alias, script, etc.) for future use!
@@ -266,31 +345,108 @@ command line.
 ### Another Desktop Client
 
 for the purpose of this demo, open another client in windowed mode.
-- in the first game window, select 
 
-TODO: FINISH ME
+then, in the **first** game window, select:
+- in **MAIN MENU -> HOST**
+	- set **NUMBER OF BOTS** to 0 (zero)
+	- click on **FREE FOR ALL**
+
+![](Images/shootergame_host.png)
+
+
+now, in the **second** game window, select:
+- in **MAIN MENU -> JOIN** (may have to click on **JOIN** twice)
+	- click on **SERVER**
+	- wait for your server to show up in the list, and then double click on it
+
+![](Images/shootergame_join.png)
+
+you should now see the two game clients in the same match.
 
 
 * * *
-### Test HTML5 with Desktop ShooterGame Host
+### Test HTML5 Client with Desktop ShooterGame Host
 
-TODO: FINISH ME
+now, let's get the HTML5 client in the same match.
+
+using the same steps from [launch the HTML5 client](README.1.emscripten.UE4.HTML5.md#launch-the-html5-client)
+from the previous HowTo's multi-player testing example.
 
 
+#### on Windows, Mac or Linux via command line
+
+in `git-bash` (for windows) or in the `terminal` (for mac or linux), you can
+use python's built in web server to host the files quick and easy.
+
+```bash
+# remember, this is an "example" path (see "archive to" notes just above)
+cd .../ShooterGame/HTML5
+python -m SimpleHTTPServer 8000
+```
+
+and using almost the same steps from [chrome or firefox](#chrome-or-firefox-64-bit-version-recommended) above:
+
+- open browser to http://localhost:8000/
+	- click on the relevant HTML file ( e.g. http://localhost:8000/ShooterGame.html )
+
+- join the desktop match:
+	- in **MAIN MENU -> JOIN** (may have to click on **JOIN** twice)
+		- click on **SERVER**
+		- wait for your server to show up in the list, and then double click on it
+
+TODO: FINISH ME... (screenshot)
+
+![](Images/shootergame_match.png)
+
+
+> NOTE: if the desktop game match ended, just start a new match.  you might have
+	to restart the whole server and client executable(s) -- so use multiple command
+	prompts/terminals use the `up` arrow to re-run the same command (or use the
+	handy shortcut, alias, script, as recommended).
+
+
+* * *
 * * *
 ## smash texture sizes
 
-TODO: FINISH ME
+let us take a look at a common issue with web browser games.  data size downloads
+are quite sensitive to many users.  keeping them small while trying to keep quality
+up is a delicate balance.
+
+for the purpose of this HowTo, we are going to reduce the texture sizes for
+EVERYTHING for HTML5.
+
+- Menu bar -> Window -> Developer Tools -> **Device Profiles**
+	- in the Device Profiles -> **Existing Device Profiles** window
+		- select the `HTML5 ...` (3 small "dots")
+		- or the HTML5 `Texture LODGroup` (wrench icon)
+	- this will bring up the **HTML5 Device Profile** settings window
+		- set **ALL** `Max LOD Size` to 256 (to start)
 
 ![](Images/editor_device_profile.png)
 
+- here, we see the `World` limit set to `256`
+- do the same for ALL the other categories
 
+doing this will greatly reduce the `<project>.data` file size
+
+- repackage and notice the difference in the `data` file size
+
+
+* * *
 * * *
 ## view modes in editor
 
-TODO: FINISH ME
+back in the [first HowTo: PIE](README.0.building.UE4.Editor.md#play-in-editor)
+was mentioned.  here's a link that will explain this feature in better details:
 
-https://docs.unrealengine.com/en-US/Platforms/Mobile/Previewer/index.html
+- https://docs.unrealengine.com/en-US/Platforms/Mobile/Previewer/index.html
+
+NOTE: for HTML5, set the Editor's previewer to the following to see (as close
+as possible) for the following equivalent HTML5 rendering format:
+- ES2: WebGL1
+- ES3: WebGL2
+- ES3.1: WebGL2 + WebGPU
 
 
 * * *

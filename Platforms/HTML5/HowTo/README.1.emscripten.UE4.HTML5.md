@@ -33,7 +33,7 @@ extra information is placed in:
 	- along with addtional steps to take to put HTML5 back into the repository tree
 
 - NOTE: this is **NOT** the same thing as upgrading the emscripten toolchain
-	- upgrading emscripten is a lot more stright-forward than upgrading Unreal Engine
+	- upgrading emscripten is a lot more straight-forward than upgrading Unreal Engine
 	- upgrading the emscripten toolchain will be shown at the end of this page
 	- upgrading Unreal Engine, again, is put in the FAQ section (see just above)
 
@@ -150,14 +150,15 @@ let's go over this part [again](README.0.building.UE4.Editor.md#window-2) now th
 		- Engine -> Rendering
 			- Mobile
 				- note: the HTML5 render path uses the same one writen for mobile, that's why it's good to check-in here every now and then
-					- again, it is currently set to use ES2 (WebGL1) -- but, note that 4.25 will
+					- again, ue4 HTML5 is currently rendering with ES2 (WebGL1) -- but, note that in 4.25 ue4 will
 						[drop support for ES2](README.4.faq.UE4.HTML5.md#warning-this-is-not-for-the-faint-of-heart)
 				- see [Content Development](../HTML5.md#content-development) and
 					[Mobile MSAA](../GettingStarted/HTML5GettingStarted.md#html5-required-project-setup)
 					just in case you are see rendering issues on your projects
 		- Platforms -> HTML5
 			- Emscripten -> **Multithreading support**
-				- for 4.24 -- this MUST be enabled (there's a crash bug in single threaded mode that is slated to be fixed in 4.25)
+				- for 4.24 -- this MUST be enabled (there's a (animation curve) crash bug in single threaded mode
+					that is slated to be fixed in 4.25)
 
 
 ### Build the Sample BluePrint Project
@@ -229,7 +230,7 @@ in general -- i use both chrome and firefox when testing.  note: they both will
 periodically "get broken" for some reason or another -- but, they usually get
 fixed in the next revision or two.
 
-i normally have these browsers installed on ALL of desktops (windows, mac and linux):
+i normally have these browsers installed on ALL of my desktops (windows, mac and linux):
 - Chrome (stable)
 - Canary (chrome "unstable" i.e. alpha)
 - Firefox (stable)
@@ -349,7 +350,8 @@ desktop client (as our base line test system).  at the same time, we will also
 build the HTML5 client.
 - select **Project** to `CPP_TP`
 - select **Build Configuration**
-	- select `Development` (we are going to use the **game console** to **open a connection** to the game server below)
+	- select `Development` (we are going to use the **game console** (via the **tilda** (`~`) key)
+		to **open a connection** to the game server below)
 	- but, you can select `Shipping` when deploying for release (just note: **game console** will NOT be available in `Shipping` builds)
 - select **Cook** to `By the book`
 - select **Cooked Plaforms** for:
@@ -562,7 +564,7 @@ again, this may take an hour or so to complete.
 
 ### HTML5Setup.sh Deep Dive
 
-follow along this explaination by going opening a page to
+follow along this explaination by opening a page to
 [HTML5Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24-html5/Engine/Platforms/HTML5/HTML5Setup.sh)
 file.
 - again: if you see a `404 This is not the web page you are looking for` error
@@ -573,7 +575,7 @@ file.
 #### UnrealBuildTool HTML5 Injection
 
 because HTML5 is (think of it as) a "new" platform, UnrealBuildTool (UBT) needs
-to be told about this.  This is done by injecting the HTML5 c# files into UBT.
+to be told about this.  This is done by injecting the HTML5 c# paths into UBT.
 
 ```c
 patch_UBT_HTML5()
@@ -607,9 +609,9 @@ later time.
 edits are wrapped between `EPIC EDIT` (to help me find these to re-apply them
 in future version).  these included things like:
 - verbose logging on timing data
-- changes from `warning` to `info` log types (reducing CI/CD false-positive alerts)
+- changes from `warning` to `info` log types (reducing false-positive alerts on Epic's CIS reports)
 - hacks to "fix" c# and python issues on windows
-- missing options
+- needed code changes (that helps make ue4 run in the browser)
 
 ```c
 patch_emscripten()
@@ -659,7 +661,7 @@ emscripten toolchain) when packaging for HTML5:
 ### a note on windows
 
 after editing the AutomationTool and UnrealBuildTool files, these support
-programs will need to be rebuilt.  on Mac and Linux, they are always done
+programs will need to be rebuilt.  on Mac and Linux, they are always rebuilt
 at the start of any packaging process.
 
 windows needs some help.
@@ -669,7 +671,7 @@ windows needs some help.
 > BUT: UnrealBuildTool still needs to be manually built on windows !!!
 
 - **so**, every-now-and-then ... **this sometimes needs manual intervention:**
-	- in the **Solution Explorer -> Solution -> Programs**, build (the following support programs):
+	- in the **Solution Explorer -> Solution -> Programs**, `Build` (the following support programs):
 		- AutomationTool
 		- UnrealBuildTool
 

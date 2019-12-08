@@ -60,6 +60,28 @@ to download the **ShooterGame** project:
 
 
 * * *
+### ALERT: on Mac and Linux
+
+at the time of this writing, we need to patch one file in the ShooterGame project.
+(by the time you read this, this may have been fixed.  but, just in case it is still
+broken on mac and linux, you will need this fix.)
+
+- edit the following file: `.../ShooterGame/Source/ShooterGame/ShooterGame.Build.cs`
+	- add the `"RHI"` module to the `PrivateDependencyModuleNames` array
+	- it should look something like this:
+
+```cs
+. . .
+        PrivateDependencyModuleNames.AddRange(
+			new string[] {
+				"RHI",	// ADD ME!
+				"InputCore",
+. . .
+
+```
+
+
+* * *
 ## Build ShooterGame "Editor"
 
 when ever starting a new project that contains source codes, i usually run the
@@ -269,7 +291,7 @@ for example, in **ShooterGame/Config/Windows/WindowsEngine.ini** -- this should 
 ;+Components=OnlineSubsystemSteam.SteamAuthComponentModuleInterface
 ```
 
-> note the `;` (semicolon) at the start of the line indicating this line is disabled
+> note the `;` (semicolon) at the start of the line indicating this line is disabled (commented out)
 
 
 * * *
@@ -284,6 +306,9 @@ set the build type:
 finally, package for your desktop
 - Menu bar -> File -> Package Project -> **Windows/Mac/Linux** (etc.)
 	- select the folder where the final files will be **archived** to
+
+> NOTE: on linux, you may need to enable it as a supported platform - see (HTML5)
+	screenshot below to find where to enable it
 
 
 ### Package ShooterGame for HTML5
@@ -404,8 +429,8 @@ you should see something like this:
 
 > NOTE: if the desktop game match ended, just start a new match.  you might have
 	to restart the whole server and client executable(s) -- so use multiple command
-	prompts/terminals use the `up` arrow to re-run the same command (or use the
-	handy shortcut, alias, script, as recommended).
+	prompts/terminals and use the `up` arrow to re-run the same command (or use
+	the handy shortcut, alias, script, as recommended).
 
 
 * * *
@@ -413,8 +438,8 @@ you should see something like this:
 ## smash texture sizes
 
 let us take a look at a common issue with web browser games.  data size downloads
-are quite sensitive to many users.  keeping them small while trying to keep quality
-up is a delicate balance.
+are quite sensitive to many users.  keeping them small while trying to keep up
+visual quality up is a delicate balance.
 
 for the purpose of this HowTo, we are going to reduce the texture sizes for
 EVERYTHING for HTML5.
@@ -449,7 +474,7 @@ NOTE: for HTML5, set the Editor's previewer to the following to see (as close
 as possible) for the following equivalent HTML5 rendering format:
 - ES2: WebGL1
 - ES3: WebGL2
-- ES3.1: WebGL2 + WebGPU
+- ES3.1: WebGL2 + WebGPU (someday...)
 
 
 * * *

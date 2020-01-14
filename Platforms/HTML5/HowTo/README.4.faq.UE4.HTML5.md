@@ -51,8 +51,9 @@ these are usually indications of the browser not having enough resources to load
 - try shutting down "other" applications
 	- tests have shown that running to many apps in the background have lead to memory fragmentation,
 		which browsers will have a hard time getting the memory space needed to run
-	- shut down things like visual studio, the Editor, everything except your browser and
-		the "web server" -- this will all help you get the game running in the browser
+	- shut down things like visual studio, the Editor, EVERYTHING -- except your
+		browser and the "web server" -- this will all help you get the game running
+		in the browser
 	- then, reload the project page on the browser
 
 
@@ -76,7 +77,7 @@ this should show you the crash stack.  begin the BUGHUNT!
 ### i already have UnrealEngine, how do i get the HTML5 platform extension
 
 ```bash
-get fetch https://github.com/UnrealEngineHTML5/UnrealEngine 4.24-html5
+git fetch https://github.com/UnrealEngineHTML5/UnrealEngine 4.24-html5
 git checkout 4.24-html5
 ```
 
@@ -90,7 +91,10 @@ git checkout 4.24-html5
 
 > NOTE: Unreal Engine as of 4.24, is the last `ES2` supported rendering feature level
 
-> this means, HTML5 rendering code and shader compiler will need to be changed to **only** support `ES3` (WebGL2) and above
+> this will cause headaches, as the HTML5 rendering code and shader compiler will need
+	to be either changed to **only** support `ES3` (WebGL2) and above -- or pull in a
+	lot of `ES2` code into the HTML5 platform extension folder (work is currently trying
+	to impliment the latter solution so that more "older" OS are supported)
 
 
 #### Engine/Platforms/HTML5/HTML5Setup.sh
@@ -224,8 +228,10 @@ TODO: FINISH ME...
 you can change HTML and CSS template files to make them stick every re-packaing
 - for all projects:
 	- `.../Engine/Platforms/HTML5/Build/TemplateFiles/*`
-- however, we recommend developers (i.e. game makers) putting their custom template file changes in the project's own folder
-	- copy `TempateFiles/*` (see just above) to `.../<Project>/Build/HTML5/<HERE>`
+- however, we recommend developers putting their custom template file changes in the project's own folder
+	- copy `TempateFiles/*`
+		- i.e. the same one "for all projects" (just above)
+	- to `.../<Project>/Build/HTML5/<HERE>`
 
 
 #### Build Folders
@@ -261,8 +267,9 @@ do not edit anything in those folders, they will be stompped on after every pack
 
 
 #### Engine/Platforms/HTML5/Build/BatchFiles/Build_All_HTML5_libs.rc
-- this **_used_** to setup my shell environment when I need to _rebuild the thirdparty libraries_ for HTML5 (**from the OSX or Linux commandline**)
-	- currently, I now use `source .../emsdk/emsdk_set_env.sh`
+- this **_used_** to setup my shell environment when I need to
+	_rebuild the thirdparty libraries_ for HTML5 (**from the ~OSX or Linux~ commandline**)
+	- currently, I now use: `source .../emsdk/emsdk-<version>/emsdk_set_env.sh`
 - **_now_**, this file has notes reminding me of the changes needed to the emscripten toolchain for UE4 purposes
 	- ~please see the file if you're curious (especially the "**upgrading emsdk - REMEMBER TO DO THE FOLLOWING**" section)~
 		- no longer needed - these are now [patched](README.1.emscripten.UE4.HTML5.md#patching-emscripten) in automatically

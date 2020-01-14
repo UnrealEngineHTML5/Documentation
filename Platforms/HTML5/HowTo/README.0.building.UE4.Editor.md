@@ -248,11 +248,18 @@ when the build completes, fire up the Editor:
 
 	open .../Engine/Binaries/Mac/UE4Editor.app --args -log
 
+- if you happen to see the `Epic Games Launcher` asking you to install it or
+	"running", go ahead and install it (copy to `Applications` folder) and then
+	finish up by closing it.
+	- we will revisit this in the [advanced example](README.2.advanced.UE4.HTML5.md#epic-games-launcher) HowTo
+	
 
 ### on Linux
 
 	.../Engine/Binaries/Linux/UE4Editor -log
 
+
+* * *
 
 > if you see the **shaders building** -- let it run to completion -- this is usually a one time build.
 
@@ -466,7 +473,8 @@ restart the Editor with the project name appended
 #### Plugins
 
 for this example, to get you familiar with the **Plugins** features - open the
-**Plugins** window and let's enable one item (that will be used in the next 2 HowTo's).
+**Plugins** window and let's enable one item (we will see a more indepth explaination
+on using this plugin in the [advanced example](README.2.advanced.UE4.HTML5.md#special-note-enable-websocket-networking-plugin)).
 - Menu bar -> Edit -> Plugins ...
 
 when the **Plugins** window open, in the `Search` box type **websocket**,

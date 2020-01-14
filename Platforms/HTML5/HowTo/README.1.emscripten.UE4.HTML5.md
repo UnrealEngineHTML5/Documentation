@@ -33,7 +33,7 @@ extra information is placed in:
 	- along with addtional steps to take to put HTML5 back into the repository tree
 
 - NOTE: this is **NOT** the same thing as upgrading the emscripten toolchain
-	- upgrading emscripten is a lot more stright-forward than upgrading Unreal Engine
+	- upgrading emscripten is a lot more straight-forward than upgrading Unreal Engine
 	- upgrading the emscripten toolchain will be shown at the end of this page
 	- upgrading Unreal Engine, again, is put in the FAQ section (see just above)
 
@@ -143,19 +143,22 @@ let's go over this part [again](README.0.building.UE4.Editor.md#window-2) now th
 					(by not having to build this additional step) -- emscripten has it's own assets bundler
 					mechanism (see [Emscripten Packaging Files](https://emscripten.org/docs/porting/files/packaging_files.html)
 					for more information about this)
+				- if you're looking for compression: please see the [smash texture size](README.2.advanced.UE4.HTML5.md#smash-texture-sizes)
+					for the most effective way to crush your download size
 			- Project -> **Full Rebuild**
 				- just make a note this exists here
 		- Engine -> Rendering
 			- Mobile
 				- note: the HTML5 render path uses the same one writen for mobile, that's why it's good to check-in here every now and then
-					- again, it is currently set to use ES2 (WebGL1) -- but, note that 4.25 will
+					- again, ue4 HTML5 is currently rendering with ES2 (WebGL1) -- but, note that in 4.25 ue4 will
 						[drop support for ES2](README.4.faq.UE4.HTML5.md#warning-this-is-not-for-the-faint-of-heart)
 				- see [Content Development](../HTML5.md#content-development) and
 					[Mobile MSAA](../GettingStarted/HTML5GettingStarted.md#html5-required-project-setup)
 					just in case you are see rendering issues on your projects
 		- Platforms -> HTML5
 			- Emscripten -> **Multithreading support**
-				- for 4.24 -- this MUST be enabled (there's a crash bug in single threaded mode that is slated to be fixed in 4.25)
+				- for 4.24 -- this MUST be enabled (there's a (animation curve) crash bug in single threaded mode
+					that is slated to be fixed in 4.25)
 
 
 ### Build the Sample BluePrint Project
@@ -223,17 +226,17 @@ python -m SimpleHTTPServer 8000
 	- click on the relevant HTML file ( e.g. http://localhost:8000/BP_FP.html )
 
 
-in general -- use both chrome and firefox when testing.  they both will periodically
-"get broken" for some reason or another -- but, they usually get fixed in the next
-revision or two.
+in general -- i use both chrome and firefox when testing.  note: they both will
+periodically "get broken" for some reason or another -- but, they usually get
+fixed in the next revision or two.
 
-i normally have these browsers installed on ALL of desktops (windows, mac and linux):
+i normally have these browsers installed on ALL of my desktops (windows, mac and linux):
 - Chrome (stable)
 - Canary (chrome "unstable" i.e. alpha)
 - Firefox (stable)
 - Firefox Nightly ("unstable i.e. alpha)
 
-those browsers above are the best at testing UnrealEngine projects in them.
+those browsers above are the **BEST** at testing UnrealEngine projects in them.
 
 
 #### Note: on Windows
@@ -347,21 +350,22 @@ desktop client (as our base line test system).  at the same time, we will also
 build the HTML5 client.
 - select **Project** to `CPP_TP`
 - select **Build Configuration**
-	- select `Development` (we are going to use the **game console** to **open a connection** to the game server below)
+	- select `Development` (we are going to use the **game console** (via the **tilda** (`~`) key)
+		to **open a connection** to the game server below)
 	- but, you can select `Shipping` when deploying for release (just note: **game console** will NOT be available in `Shipping` builds)
 - select **Cook** to `By the book`
 - select **Cooked Plaforms** for:
-	- on Windows: `WindowsNoEditor` and `WindowsServer`
-	- on Mac: `MacNoEditor` and `MacServer`
-	- on Linux: `LinuxNoEditor` and `LinuxServer`
+	- on Windows: `WindowsClient` and `WindowsServer`
+	- on Mac: `MacClient` and `MacServer`
+	- on Linux: `LinuxClient` and `LinuxServer`
 	- AND HTML5
 
-NOTE: the following are all essentially the same (for the respective platforms):
+NOTE: the following "client" variants are all essentially the same (for the respective platforms):
 - `Windows & WindowsNoEditor` and `WindowsClient`
 - `Mac & MacNoEditor` and `MacClient`
 - `Linux & LinuxNoEditor` and `LinuxClient`
 
-am using `NoEditor` here just as an example.
+> in this example, if you clicked on ALL 3 of these "client" variants, the `Client` variant is ONLY built.
 
 - select **Package** to `Package & store locally`
 - in **Archive**, check the box `on`
@@ -387,49 +391,109 @@ to begin packaging everything.
 after the build is done (which may take a while to complete) in your **archive**
 folder, you should see something like this:
 
+![](Images/archive_cpp_tp.png)
+
+
 ### Launch the Server
 
-	TODO: FINISH ME
+here, we will be using the more advanced way to run the project from the command line.
 
-#### on Windows:
+- first, tell the server to host with the map: **ThirdPersonExampleMap**
 
-	TODO: FINISH ME
+- as before, i like to see the `stdout` prints -- to know that the game is still running
+	- using `-log` parameter to view this
 
-#### on Mac:
 
-	TODO: FINISH ME
+#### on Windows via CommandPrompt:
 
-#### on Linux:
+- open `CommandPrompt` to the location where the Server files were **archived** to
+	- e.g. `cd ...\CPP_TP\WindowsServer`
+- run executable
+	- `CPP_TPServer.exe ThirdPersonExampleMap -log`
 
-	TODO: FINISH ME
+#### on Mac via Terminal:
+
+- open `terminal` to the location where files were **archived** to
+	- e.g. `cd .../CPP_TP/MacServer`
+- run executable
+	- `open ./CPP_TPServer.app --args ThirdPersonExampleMap -log`
+
+#### on Linux via Terminal:
+
+- open `terminal` to the location where files were **archived** to
+	- e.g. `cd .../CPP_TP/LinuxServer`
+- run executable
+	- `./CPP_TPServer.sh ThirdPersonExampleMap -log`
+
+> TIP: put the command in a shortcut (or alias, script, etc.)
+
 
 ### Launch the Desktop Client
 
-	TODO: FINISH ME
+to run multiple instances of the project at once (this networking project is a
+perfect example), this time we will launch the game in `windowed` mode from the
 
-#### on Windows:
+- run the game in a windowed size screen (i.e. not full screen)
+	- using `-windowed -resx=800 -resy=600` parameter to do this
 
-	TODO: FINISH ME
+- again, i like to see the `stdout` prints -- to know that the game is still running
+	- using `-log` parameter to view this
 
-#### on Mac:
+#### on Windows via CommandPrompt:
 
-	TODO: FINISH ME
+- open `CommandPrompt` to the location where the Server files were **archived** to
+	- e.g. `cd ...\CPP_TP\Windowslient`
+- run executable
+	- `CPP_TPClient.exe -windowed -resx=800 -resy=600 -log`
 
-#### on Linux:
+#### on Mac via Terminal:
 
-	TODO: FINISH ME
+- open `terminal` to the location where files were **archived** to
+	- e.g. `cd .../CPP_TP/MacClient`
+- run executable
+	- `open ./CPP_TPClient.app --args -windowed -resx=800 -resy=600 -log`
+
+#### on Linux via Terminal:
+
+- open `terminal` to the location where files were **archived** to
+	- e.g. `cd .../CPP_TP/LinuxClient`
+- run executable
+	- `./CPP_TPClient.sh -windowed -resx=800 -resy=600 -log`
+
+> TIP: put the command in a shortcut (or alias, script, etc.)
+
 
 ### Launch the HTML5 Client
 
-	TODO: FINISH ME
+using almost the same steps from [test sample blueprint project for HTML5](#on-windows-mac-or-linux-via-command-line) above:
 
-#### on Windows:
+#### on Windows, Mac or Linux via command line
 
-	TODO: FINISH ME
+in `git-bash` (for windows) or in the `terminal` (for mac or linux), you can
+use python's built in web server to host the files quick and easy.
 
-#### on Mac and Linux:
+```bash
+# remember, this is an "example" path (see "archive to" notes just above)
+cd .../CPP_TP/HTML5
+python -m SimpleHTTPServer 8000
+```
 
-	TODO: FINISH ME
+and using almost the same steps from [chrome or firefox](#chrome-or-firefox-64-bit-version-recommended) above:
+
+- open browser to http://localhost:8000/
+	- click on the relevant HTML file ( e.g. http://localhost:8000/CPP_TP.html )
+
+
+### Finally...
+
+in the desktop client AND HTML5 browser:
+- open the `game console` command line, by pressing the **tilda** key (`~`)
+	- type: `open 127.0.0.1`
+		- here, we are telling the `client` to open a connection to the `server`
+			(hosted at 127.0.0.1 -- a.k.a. `localhost`)
+
+you should see the game reload, and as more clients join the server - the more
+players you will see in there!
 
 
 > again, we will do an [Advanced Example of Building a UE4 HTML5 Project](README.2.advanced.UE4.HTML5.md)
@@ -500,7 +564,7 @@ again, this may take an hour or so to complete.
 
 ### HTML5Setup.sh Deep Dive
 
-follow along this explaination by going opening a page to
+follow along this explaination by opening a page to
 [HTML5Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24-html5/Engine/Platforms/HTML5/HTML5Setup.sh)
 file.
 - again: if you see a `404 This is not the web page you are looking for` error
@@ -511,7 +575,7 @@ file.
 #### UnrealBuildTool HTML5 Injection
 
 because HTML5 is (think of it as) a "new" platform, UnrealBuildTool (UBT) needs
-to be told about this.  This is done by injecting the HTML5 c# files into UBT.
+to be told about this.  This is done by injecting the HTML5 c# paths into UBT.
 
 ```c
 patch_UBT_HTML5()
@@ -545,9 +609,9 @@ later time.
 edits are wrapped between `EPIC EDIT` (to help me find these to re-apply them
 in future version).  these included things like:
 - verbose logging on timing data
-- changes from `warning` to `info` log types (reducing CI/CD false-positive alerts)
+- changes from `warning` to `info` log types (reducing false-positive alerts on Epic's CIS reports)
 - hacks to "fix" c# and python issues on windows
-- missing options
+- needed code changes (that helps make ue4 run in the browser)
 
 > WARNING: do NOT just change the patch folder name (version) when upgrading your
 emscripten toolchain. you MUST **manually inspect** the files to see if the
@@ -607,7 +671,7 @@ emscripten toolchain) when packaging for HTML5:
 ### a note on windows
 
 after editing the AutomationTool and UnrealBuildTool files, these support
-programs will need to be rebuilt.  on Mac and Linux, they are always done
+programs will need to be rebuilt.  on Mac and Linux, they are always rebuilt
 at the start of any packaging process.
 
 windows needs some help.
@@ -617,7 +681,7 @@ windows needs some help.
 > BUT: UnrealBuildTool still needs to be manually built on windows !!!
 
 - **so**, every-now-and-then ... **this sometimes needs manual intervention:**
-	- in the **Solution Explorer -> Solution -> Programs**, build (the following support programs):
+	- in the **Solution Explorer -> Solution -> Programs**, `Build` (the following support programs):
 		- AutomationTool
 		- UnrealBuildTool
 

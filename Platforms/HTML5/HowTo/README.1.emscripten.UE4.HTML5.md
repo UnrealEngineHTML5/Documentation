@@ -524,7 +524,7 @@ Unreal Engine code is edited and checked in by Epic Games developers and
 is eventually propagated to the github repositories.  this was a tiny fix
 that didn't make the lock down window.
 
-see [this F.A.Q.](https://github.com/UnrealEngineHTML5/Documentation/Platforms/HTML5/HowTo/README.4.faq.UE4.HTML5.md#tobool63i--icmp-slt-i176)
+see [this F.A.Q.](README.4.faq.UE4.HTML5.md#tobool63i--icmp-slt-i176)
 for details.
 
 ```c
@@ -548,6 +548,16 @@ in future version).  these included things like:
 - changes from `warning` to `info` log types (reducing CI/CD false-positive alerts)
 - hacks to "fix" c# and python issues on windows
 - missing options
+
+> WARNING: do NOT just change the patch folder name (version) when upgrading your
+emscripten toolchain. you MUST **manually inspect** the files to see if the
+**EPIC EDIT** changes (still) makes sense in the (new) file they are to be put in.
+
+> ALSO (just in case this is not obvious) -- if you just change the patch folder
+name (i.e. version) -- you are going to STOMP on the newer file with older ones.
+this may/will cause problems when the newer emscripten toolchain has been updated
+but is running with (copied over) older files.
+
 
 ```c
 patch_emscripten()

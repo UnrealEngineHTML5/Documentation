@@ -157,17 +157,39 @@ help page after clicking on **Menu Bar -> File -> Package Project -> HTML5**
 
 ##### tobool63.i = icmp slt i176
 
-TODO FINISH ME...
+the crux of this issue is best explained from this stackoverflow post:
+- [C++ bitfield packing with bools](https://stackoverflow.com/questions/308364/c-bitfield-packing-with-bools)
+
+in UE4, there are some mixed bitfield types that seems to explode the data structure size that emscripten doesn't like
+- this may be fixed in "upstream" (i.e. clang10)
+- but, UE4 can only be build with "fastcomp" (i.e. clang6)
+	- this was mentioned in [Emscripten and UE4 README](README.1.emscripten.UE4.HTML5.md#upgrading-emscripten-toolchain) -- Upgrading Emscripten Toolchain section
+
+to hunt down the offending `struct`, you need to disassemble the bitcode (`.bc`) file and scan for the error the build spits out during link.
+- for example, during HTML5 packaging, you might see `error: tobool63.i = icmp slt i176` in the build log
+- to get an idea of what function this might be coming from -- we scan the disassembled file (`.ll`) for that error
+	- using `grep`, we dump 1000 lines before (`-B 1000`) and a few lines after (`-A 20`) 
+	- inspect that smaller chunk of disassembled lines to try and narrow the file we need to look for
+
+in this example, `Engine/Source/Runtime/Engine/Classes/Engine/Scene.h` contained a mix of `uint8 :1` and `uint32 :1` data types.
+emscripten ("fastcomp") didn't like this -- but, changing them all to bool fixed this link time error.
 
 ```bash
 Engine/Binaries/HTML5$ llvm-dis-6.0 UE4Game.bc
-Engine/Binaries/HTML5/w$ egrep -B 1000 -A 20 "tobool63.i = icmp slt i176" ../UE4Game.ll > z1.txt
+Engine/Binaries/HTML5$ egrep -B 1000 -A 20 "tobool63.i = icmp slt i176" UE4Game.ll > minidump.txt
+. . .
+Engine/Source/Runtime/Engine/Classes/Engine$ mv Scene.h Scene.h.save
 Engine/Source/Runtime/Engine/Classes/Engine$ cat Scene.h.save | perl -0p -e "s/uint\d+\s+(.+)\s?:\s?1;/bool \1;/g" > Scene.h
 ```
 
 ##### PLATFORM_USE_SHOWFLAGS_ALWAYS_BITFIELD
 
-TODO FINISH ME
+in `Engine/Source/Runtime/Engine/Public/ShowFlags.h`, this also had a similar bit packing problem.
+but, all of the data types were the same here.  and yet, something was causing the game to render a black screen if the data type wasn't set as just `bool` for some reason.
+
+it could have been due to using a `char` size value in `memset()` -- when the data type was originally `uint32 :1` -- but,
+setting everything to `bool` here, caused the playstation to render its screen black... so this was `#if` guarded on platforms
+in a case by case basis (yes, only HTML5 was the only one that needed this "fix").
 
 
 * * *

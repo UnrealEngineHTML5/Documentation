@@ -101,6 +101,17 @@ this will take a while to complete (again, this is only a **one-time** setup):
 	> please see the FAQ about why [emscripten ports](README.4.faq.UE4.HTML5.md#emscripten-ports) is not used in UE4
 
 
+### Troubleshooting HTML5Setup.sh
+
+if you see errors when running the script early on, please see the
+UE4 HTML5 [Troubleshooting emsdk issues](README.4.faq.UE4.HTML5.md#troubleshooting-emsdk-issues) F.A.Q.
+
+if you see errors fairly long into the run, please ensure you have plenty of hard drive space.
+- how mucn hard drive space?
+	- because you will also be building UE4 Editor (giant), UE4 tools (small), and some projects (can be giant)
+	- look to have more than 150GB of free hard drive space
+
+
 * * *
 * * *
 ## Package a Sample BluePrint Project For HTML5

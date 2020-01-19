@@ -16,6 +16,7 @@ in this page, you can find information on:
 - Emscripten
 	- [links](#links)
 	- [custom edits to emsripten for Unreal Engine](#custom-edits-to-emsripten-for-unreal-engine)
+	- [troubleshooting emsdk issues](#troubleshooting-emsdk-issues)
 - [Unreal Engine HTML5 Files](#unreal-engine-html5-files)
 
 
@@ -217,6 +218,44 @@ to learn more about what powers Unreal Engine for the web browsers, please see:
 ### Custom Edits to Emscripten for Unreal Engine
 
 TODO: FINISH ME...
+
+
+* * *
+### Troubleshooting emsdk issues
+
+this is run during `HTML5Setup.sh` - if you see errors like the following:
+
+
+##### python SSL/TSL
+
+```bash
+Warning: Possibly SSL/TLS issue. Update or install Python SSL root certificates...
+```
+
+update your system's [Python](https://www.python.org/downloads/) version.
+
+
+##### "tools cannot be activated since it is not installed"
+
+```bash
+Warning: The SDK/tool 'node-X.Y.Z-64bit' cannot be activated since it is not installed! Skipping this tool...
+Warning: The SDK/tool 'python-X.Y.Z.a-64bit' cannot be activated since it is not installed! Skipping this tool...
+Warning: The SDK/tool 'java-X.Y-64bit' cannot be activated since it is not installed! Skipping this tool...
+...
+```
+
+you might have missied the first error when running the `HTML5Setup.sh` script the first time.
+
+in other words, running the `HTML5Setup.sh` script (the first time) shows that
+`./emsdk install <version>` has failed for some reason.
+
+and now, when trying to run `HTML5Setup.sh` again - it tried to proceed to
+`./emsdk activate <version>` and it is saying that these tools are missing.
+- to show the first error again (for bug reporting purposes):
+	- DELETE you local copy of `Engine/Platforms/HTML5/Build/emsdk/*`
+	- rerun `HTML5Setup.sh` again
+	- carefully look at the build output and see if this error has been reported before
+		- be sure to also see if this has been reported in https://github.com/emscripten-core/emscripten/issues
 
 
 * * * 

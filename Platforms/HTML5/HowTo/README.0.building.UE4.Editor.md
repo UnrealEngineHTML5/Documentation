@@ -27,7 +27,8 @@ please ensure you have the following tools downloaded and installed:
 		  using `git` from the **CommandPrompt** or **PowerShell**, then use the
 		  `recommended` option)
 		- accept all defaults (including `use MinTTY`) for the rest of the install
-- [Python](https://www.python.org/downloads/) 2.7.12 or above
+- [Python](https://www.python.org/downloads/) 3.x or above
+	- WARNING: Python 2.x is now "End of Life"
 - [CMake](https://cmake.org/download/) 3.12 or above
 	- Windows Note:
 		- make sure to choose the option to add cmake to the `PATH` (local user or all users)
@@ -66,7 +67,8 @@ remember, HTML5 is no longer an officially supported platform at Epic Games -- h
 NOTE: due to the special branch that already has HTML5 platform files populated,
 we are going to squeeze in calling `HTML5Setup.sh` here.
 
-we will do an indepth explaination of [HTML5Setup.sh](README.1.emscripten.UE4.HTML5.md#html5setupsh-build-script)
+we will do an indepth explaination (and go over some troubleshooting tips) of
+[HTML5Setup.sh](README.1.emscripten.UE4.HTML5.md#html5setupsh-build-script)
 in the next HowTo.
 
 HEADS UP: the first time running this may take a while:

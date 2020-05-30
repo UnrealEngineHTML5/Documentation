@@ -107,7 +107,7 @@ if you see errors when running the script early on, please see the
 UE4 HTML5 [Troubleshooting emsdk issues](README.4.faq.UE4.HTML5.md#troubleshooting-emsdk-issues) F.A.Q.
 
 if you see errors fairly long into the run, please ensure you have plenty of hard drive space.
-- how mucn hard drive space?
+- how much hard drive space?
 	- because you will also be building UE4 Editor (giant), UE4 tools (small), and some projects (can be giant)
 	- look to have more than 150GB of free hard drive space
 
@@ -218,7 +218,8 @@ use python's built in web server to host the files quick and easy.
 ```bash
 # remember, this is an "example" path (see "archive to" notes just above)
 cd /D/Builds/BP_FP/HTML5
-python -m SimpleHTTPServer 8000
+python -m http.server 8000
+#python2 -m SimpleHTTPServer 8000
 ```
 
 #### on Mac or Linux
@@ -226,7 +227,8 @@ python -m SimpleHTTPServer 8000
 ```bash
 # remember, this is an "example" path (see "archive to" notes just above)
 cd /ue4/Builds/BP_FP/HTML5
-python -m SimpleHTTPServer 8000
+python -m http.server 8000
+#python2 -m SimpleHTTPServer 8000
 ```
 
 
@@ -486,7 +488,8 @@ use python's built in web server to host the files quick and easy.
 ```bash
 # remember, this is an "example" path (see "archive to" notes just above)
 cd .../CPP_TP/HTML5
-python -m SimpleHTTPServer 8000
+python -m http.server 8000
+#python2 -m SimpleHTTPServer 8000
 ```
 
 and using almost the same steps from [chrome or firefox](#chrome-or-firefox-64-bit-version-recommended) above:
@@ -579,8 +582,7 @@ follow along this explaination by opening a page to
 [HTML5Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24-html5/Engine/Platforms/HTML5/HTML5Setup.sh)
 file.
 - again: if you see a `404 This is not the web page you are looking for` error
-	- Double check you are logged in to GitHub
-	- Double check you have [linked](https://www.epicgames.com/account/connected) your Epic Games and GitHub accounts
+	- `Remember to link your Epic Games Account to your GitHub account.` See [HERE](../../../README.md) for more details.
 
 
 #### UnrealBuildTool HTML5 Injection

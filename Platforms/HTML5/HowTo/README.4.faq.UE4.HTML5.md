@@ -31,8 +31,8 @@ in this page, you can find information on:
 	- e.g. on chrome - `Assertion failed: requested a shared WebAssembly.Memory but the returned buffer is not a SharedArrayBuffer, indicating that while the browser has SharedArrayBuffer it does not have WebAssembly threads support - you may need to set a flag`
 
 - you will need to configure your browser to allow "multi-threading" support
-		- for Chrome: set `chrome://flags/#enable-webassembly-threads` as `WebAssembly threads support`
-		- for Firefox: in `about:config` set `javascript.options.shared_memory` preference to `true` to enable **SharedArrayBuffer**
+	- for Chrome: set `chrome://flags/#enable-webassembly-threads` as `WebAssembly threads support`
+	- for Firefox: in `about:config` set `javascript.options.shared_memory` preference to `true` to enable **SharedArrayBuffer**
 
 - then try reloading the project in your browser
 - you may need to restart your browser if you are still having problems
@@ -173,7 +173,7 @@ in UE4, there are some mixed bitfield types that seems to explode the data struc
 to hunt down the offending `struct`, you need to disassemble the bitcode (`.bc`) file and scan for the error the build spits out during link.
 - for example, during HTML5 packaging, you might see `error: tobool63.i = icmp slt i176` in the build log
 - to get an idea of what function this might be coming from -- we scan the disassembled file (`.ll`) for that error
-	- using `grep`, we dump 1000 lines before (`-B 1000`) and a few lines after (`-A 20`) 
+	- using `grep`, we dump 1000 lines before (`-B 1000`) and a few lines after (`-A 20`)
 	- inspect that smaller chunk of disassembled lines to try and narrow the file we need to look for
 
 in this example, `Engine/Source/Runtime/Engine/Classes/Engine/Scene.h` contained a mix of `uint8 :1` and `uint32 :1` data types.
@@ -205,7 +205,7 @@ TODO: FINISH ME...
 
 * * *
 * * *
-## Emsripten
+## Emscripten
 
 to learn more about what powers Unreal Engine for the web browsers, please see:
 
@@ -217,7 +217,7 @@ to learn more about what powers Unreal Engine for the web browsers, please see:
 
 ### Custom Edits to Emscripten for Unreal Engine
 
-TODO: FINISH ME...
+the detailed are found in the [patching emscripten](README.1.emscripten.UE4.HTML5.md#patching-emscripten) section.
 
 
 * * *

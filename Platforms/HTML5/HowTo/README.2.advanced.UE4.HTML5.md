@@ -406,7 +406,8 @@ use python's built in web server to host the files quick and easy.
 ```bash
 # remember, this is an "example" path (see "archive to" notes just above)
 cd .../ShooterGame/HTML5
-python -m SimpleHTTPServer 8000
+python -m http.server 8000
+#python2 -m SimpleHTTPServer 8000
 ```
 
 and using almost the same steps from [chrome or firefox](#chrome-or-firefox-64-bit-version-recommended) above:

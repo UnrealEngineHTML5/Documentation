@@ -13,9 +13,16 @@ This is the documentation for the Community-supported HTML5 Platform Extension f
 After **linking your [Epic Games Account](https://www.epicgames.com/account/connected) to your GitHub account**,
 you can find the HTML5 Platform Extenion repository [HERE](https://github.com/UnrealEngineHTML5/UnrealEngine/tree/4.24/Engine/Platforms/HTML5).
 
-- NOTE: if you see a `404 This is not the web page you are looking for` error
-	- Double check you are logged in to GitHub
-	- Double check you have linked your Epic Games and GitHub accounts
+- NOTE: if you still see a `404 This is not the web page you are looking for` error
+	- Double check you have linked your Epic Games and GitHub accounts [#12](https://github.com/UnrealEngineHTML5/Documentation/issues/12#issuecomment-597729773)
+	- Double check you have accepted email confirmation link [#12](https://github.com/UnrealEngineHTML5/Documentation/issues/12#issuecomment-609103355) [#25](https://github.com/UnrealEngineHTML5/Documentation/issues/25#issuecomment-629591561)
+	- Double check you are logged in to (the correct) GitHub (account) [#7](https://github.com/UnrealEngineHTML5/Documentation/issues/7#issuecomment-585855847)
+	- You **MUST** be able to see [EpicGames/UnrealEngine](https://github.com/EpicGames/UnrealEngine) **before** you can see the HTML5 fork
+		[#7](https://github.com/UnrealEngineHTML5/Documentation/issues/7#issuecomment-585850444)
+		[#8](https://github.com/UnrealEngineHTML5/Documentation/issues/8#issuecomment-587092613)
+		[#12](https://github.com/UnrealEngineHTML5/Documentation/issues/12#issuecomment-632891334)
+		[#25](https://github.com/UnrealEngineHTML5/Documentation/issues/25#issuecomment-632911377)
+	- Please see all [**Open and Closed** HTML5 404 issues](https://github.com/UnrealEngineHTML5/Documentation/labels/404) for more tips
 
 * * *
 

@@ -233,6 +233,10 @@ after the visual studio solution is opened, i like to "manually rebuild" these s
 - while this was already built above, use the following when making changes to UE4Editor:
 	- `make UE4Editor`
 
+> NOTE: when kernel version has been upgraded, UE4Editor needs to be rebuilt clean:
+- run: `make UE4Editor ARGS=-clean`
+- and then `make StandardSet` (or `make UE4Editor`)
+
 
 * * *
 * * *

@@ -156,7 +156,10 @@ after the visual studio solution is opened, i like to "manually rebuild" these s
 	- AutomationToolLauncher
 	- UnrealBuildTool
 	- UnrealHeaderTool
-	- HTML5LaunchHelper (this needs to be **MANUALLY** added in to the visual studio solution - `UBT` is not adding this automatically during `GenerateProjectFiles.bat` for some reason...)
+	- HTML5LaunchHelper
+		- this needs to be **MANUALLY** added in to the visual studio solution:
+			- `Engine/Platforms/HTML5/Source/Programs/HTML5/HTML5LaunchHelper/HTML5LaunchHelper.csproj`
+		- `UBT` is not adding this automatically during `GenerateProjectFiles.bat` for some reason...
 	- ShaderCompileWorker
 	- UnrealLightmass
 	- UnrealPak

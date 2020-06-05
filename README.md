@@ -22,6 +22,9 @@ you can find the HTML5 Platform Extenion repository [HERE](https://github.com/Un
 		[#8](https://github.com/UnrealEngineHTML5/Documentation/issues/8#issuecomment-587092613)
 		[#12](https://github.com/UnrealEngineHTML5/Documentation/issues/12#issuecomment-632891334)
 		[#25](https://github.com/UnrealEngineHTML5/Documentation/issues/25#issuecomment-632911377)
+		- You **MAY** Have to wait for a bit (usually less than 24 hours) before access is granted
+			[#7](https://github.com/UnrealEngineHTML5/Documentation/issues/7#issuecomment-585872314)
+			[#35](https://github.com/UnrealEngineHTML5/Documentation/issues/35#issuecomment-636389033)
 	- Please see all [**Open and Closed** HTML5 404 issues](https://github.com/UnrealEngineHTML5/Documentation/labels/404) for more tips
 
 * * *

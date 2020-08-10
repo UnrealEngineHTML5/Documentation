@@ -15,7 +15,7 @@ this page will show you how to:
 ## First Things First
 
 back in [Get Source File](README.0.building.UE4.Editor.md#get-source-files), a clone of a
-special branch based on Release-4.24 was used (which was put in (e.g.) `.../ue4-r424-html5`
+special branch based on Release-4.24.3 was used (which was put in (e.g.) `.../ue4-4.24.3-html5`
 and will be used in this HowTo page) -- with the HTML5 platform files already populated.
 
 - NOTE: this is the last snapshot for HTML5 that is now "no longer supported" by Epic Games
@@ -58,7 +58,7 @@ in order to package Unreal Engine for HTML5, we need to perform a number of step
 to get the UE4 Editor able to package for HTML5.
 - NOTE: this only needs to be done **once** (per local repo)
 
-all of these steps are all gathered in the (e.g.) `.../ue4-r424-html5/Engine/Platforms/HTML5/HTML5Setup.sh`
+all of these steps are all gathered in the (e.g.) `.../ue4-4.24.3-html5/Engine/Platforms/HTML5/HTML5Setup.sh`
 build scripts.
 
 
@@ -68,8 +68,8 @@ open `git-bash`
 - this was installed as part of the
 	[Development Environment Requirements](README.0.building.UE4.Editor.md#development-environment-requirements) section
 - change the directory to where your UE4 was cloned to
-	- e.g. `cd ue4-r424-html5`
-- or, you can use **File Explorer** and right click on the **ue4-r424-html5** folder and select `Git Bash Here`
+	- e.g. `cd ue4-4.24.3-html5`
+- or, you can use **File Explorer** and right click on the **ue4-4.24.3-html5** folder and select `Git Bash Here`
 
 
 ### on Mac and Linux
@@ -78,7 +78,7 @@ open the Terminal
 
 - change directory to the location where UE4 was cloned to (as we have seen
 	in the [Generate Project/Make Files](README.0.building.UE4.Editor.md#generate-projectmake-files) section)
-	- e.g. `cd ue4-r424-html5`
+	- e.g. `cd ue4-4.24.3-html5`
 
 
 ### Fetch EMSDK and Build ThirdPary Libraries for HTML5
@@ -87,7 +87,7 @@ in `git-bash` (for windows) or in the `terminal` (for mac or linux), do the
 following (yes, these commands will work the same on all 3 OS):
 
 ```bash
-# remember, we are now in the ue4-r424-html5 folder
+# remember, we are now in the ue4-4.24.3-html5 folder
 cd Engine/Platforms/HTML5
 ./HTML5Setup.sh
 ```
@@ -168,7 +168,7 @@ let's go over this part [again](README.0.building.UE4.Editor.md#window-2) now th
 					just in case you are see rendering issues on your projects
 		- Platforms -> HTML5
 			- Emscripten -> **Multithreading support**
-				- for 4.24 -- this MUST be enabled (there's a (animation curve) crash bug in single threaded mode
+				- for 4.24 (as well as 4.24.3) -- this MUST be enabled (there's a (animation curve) crash bug in single threaded mode
 					that is slated to be fixed in 4.25)
 
 
@@ -561,7 +561,7 @@ above.
 in `git-bash` (for windows) or in the `terminal` (for mac or linux):
 
 ```bash
-# remember, we are now in the ue4-r424-html5 folder
+# remember, we are now in the ue4-4.24.3-html5 folder
 cd Engine/Platforms/HTML5
 ./HTML5Setup.sh
 ```
@@ -579,7 +579,7 @@ again, this may take an hour or so to complete.
 ### HTML5Setup.sh Deep Dive
 
 follow along this explaination by opening a page to
-[HTML5Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24-html5/Engine/Platforms/HTML5/HTML5Setup.sh)
+[HTML5Setup.sh](https://github.com/UnrealEngineHTML5/UnrealEngine/blob/4.24.3-html5-1.39.18/Engine/Platforms/HTML5/HTML5Setup.sh)
 file.
 - again: if you see a `404 This is not the web page you are looking for` error
 	- `Remember to link your Epic Games Account to your GitHub account.` See [HERE](../../../README.md) for more details.

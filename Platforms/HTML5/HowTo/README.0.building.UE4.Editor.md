@@ -49,14 +49,14 @@ and, ensure you have the respective compiler tools for your desktop:
 * * *
 ## Get Source Files
 
-clone Unreal Engine (in this case, a fork of UE4 release 4.24 that has already
+clone Unreal Engine (in this case, a fork of UE4 release 4.24.3 that has already
 been branched with the HTML5 files populated in the `Unreal Engine platforms
 extension` path).
 
-in this example, clone to a folder named `ue4-r424-html5`
+in this example, clone to a folder named `ue4-4.24.3-html5`
 
 ```
-git clone -b 4.24-html5 --single-branch https://github.com/UnrealEngineHTML5/UnrealEngine ue4-r424-html5
+git clone -b 4.24.3-html5-1.39.18 --single-branch https://github.com/UnrealEngineHTML5/UnrealEngine ue4-4.24.3-html5
 ```
 
 remember, HTML5 is no longer an officially supported platform at Epic Games -- hence the `UnrealEngineHTML5` github account.
@@ -82,8 +82,8 @@ HEADS UP: the first time running this may take a while:
 ```
 # open git-bash
 # or, you can use "File Explorer" and right click on the
-# "ue4-r424-html5" folder and select "Git Bash Here"
-cd ue4-r424-html5
+# "ue4-4.24.3-html5" folder and select "Git Bash Here"
+cd ue4-4.24.3-html5
 ./Setup.bat
 
 cd Engine/Platforms/HTML5
@@ -99,7 +99,7 @@ cd -
 
 ```
 # open a terminal to
-cd ue4-r424-html5
+cd ue4-4.24.3-html5
 ./Setup.command
 
 cd Engine/Platforms/HTML5
@@ -115,7 +115,7 @@ cd -
 
 ```
 # open a terminal to
-cd ue4-r424-html5
+cd ue4-4.24.3-html5
 ./Setup.sh
 
 cd Engine/Platforms/HTML5

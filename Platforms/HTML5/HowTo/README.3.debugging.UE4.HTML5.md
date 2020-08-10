@@ -161,7 +161,7 @@ __DATA__
 
 ```bash
 #!/bin/sh
-find /work/ue4-r424-html5/ShooterGame/Saved/ShaderDebugInfo/GLSL_ES2_WEBGL -name "*.glsl" -print | while read i; do
+find /work/ue4-4.24.3-html5/ShooterGame/Saved/ShaderDebugInfo/GLSL_ES2_WEBGL -name "*.glsl" -print | while read i; do
 	results=`cat "$i" | ./scan.pl`
 	if [ "$results" == "FOUND" ]; then
 		echo $i

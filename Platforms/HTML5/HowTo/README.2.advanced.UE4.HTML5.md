@@ -51,7 +51,7 @@ to download the **ShooterGame** project:
 - click on Create Project
 - pick the path to download the project to
 	- in this example, i have put ShooterGame in the same folder where **Engine**
-		is -- i.e. `.../ue4-r424-html5/ShooterGame`.  it doesn't have to be there.
+		is -- i.e. `.../ue4-4.24.3-html5/ShooterGame`.  it doesn't have to be there.
 		but, for this demo, you can put it there to follow along these instructions.
 - select the engine version: 4.24
 - click on Create
@@ -95,8 +95,8 @@ to start with.
 
 #### on Windows via CommandPrompt
 
-- open `CommandPrompt` to ue4-r424-html5
-	- e.g. `cd ...\ue4-r424-html5`
+- open `CommandPrompt` to ue4-4.24.3-html5
+	- e.g. `cd ...\ue4-4.24.3-html5`
 - re-generate the visual studio solution file
 	- `GenerateProjectFiles.bat`
 - open the generated visual studio solution (UE4.sln)
@@ -104,8 +104,8 @@ to start with.
 
 #### on Mac via Terminal
 
-- open `terminal` to ue4-r424-html5
-	- e.g. `cd .../ue4-r424-html5`
+- open `terminal` to ue4-4.24.3-html5
+	- e.g. `cd .../ue4-4.24.3-html5`
 - re-generate the xcode project file
 	- `GenerateProjectFiles.command`
 - open the generated xcode project (UE4.xcworkspace)
@@ -116,8 +116,8 @@ to start with.
 
 #### on Linux via Terminal
 
-- open `terminal` to ue4-r424-html5
-	- e.g. `cd .../ue4-r424-html5`
+- open `terminal` to ue4-4.24.3-html5
+	- e.g. `cd .../ue4-4.24.3-html5`
 - re-generate the Makefiles
 	- `GenerateProjectFiles.sh`
 - and then:
@@ -185,7 +185,7 @@ open a listening port to host a session.
 ### Configuring UE4 Projects with WebSocket Networking
 
 in the previous previous HowTo, it was mentioned that the clone of a special
-branch based on Release-4.24 was made with the HTML5 platform files already
+branch based on Release-4.24.3 was made with the HTML5 platform files already
 populated.  this includes **config.ini** files.
 
 in this HowTo, we will go through the steps to make UE4 networking projects work

@@ -11,7 +11,7 @@ This is the documentation for the Community-supported HTML5 Platform Extension f
 * * *
 
 After **linking your [Epic Games Account](https://www.epicgames.com/account/connected) to your GitHub account**,
-you can find the HTML5 Platform Extenion repository [HERE](https://github.com/UnrealEngineHTML5/UnrealEngine/tree/4.24.3-html5-1.39.18/Engine/Platforms/HTML5).
+you can find the HTML5 Platform Extension repository [HERE](https://github.com/UnrealEngineHTML5/UnrealEngine/tree/4.24.3-html5-1.39.18/Engine/Platforms/HTML5).
 
 - NOTE: if you still see a `404 This is not the web page you are looking for` error
 	- Double check you have linked your Epic Games and GitHub accounts [#12](https://github.com/UnrealEngineHTML5/Documentation/issues/12#issuecomment-597729773)

@@ -44,7 +44,7 @@ and, ensure you have the respective compiler tools for your desktop:
 
 - Linux
 	- build-essential
-
+	- (Ubuntu 20.04) sudo ln -s /usr/bin/python3 /usr/bin/python
 
 * * *
 ## Get Source Files
